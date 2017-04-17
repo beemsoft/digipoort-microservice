@@ -114,24 +114,7 @@ public class DateHelper {
 	}
 
 	private static FiscalPeriod getLatestQuarterPeriod() {
-		Calendar cal = new GregorianCalendar();
-		cal.setTime(new Date());
-
-		int month = cal.get(Calendar.MONTH);
-		if (month == 0) {
-			cal.add(Calendar.YEAR, -1);
-		}
-		int quarter = getQuarter(month);
-		int lastMonth = quarter * 3;
-		int firstMonth = quarter * 3 - 3;
-		cal.set(Calendar.MONTH, firstMonth);
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		Date beginDatum = cal.getTime();
-		cal.set(Calendar.MONTH, lastMonth);
-		cal.set(Calendar.DAY_OF_MONTH, 0);
-		Date eindDatum = cal.getTime();
-//		return new FiscalPeriod(beginDatum, eindDatum);
-		return null;
+		return new FiscalPeriod(LocalDate.now().minusMonths(3).withDayOfMonth(1), LocalDate.now().withDayOfMonth(1).minusDays(1));
 	}
 
 	public static Date getLastDayOfFirstMonthOfNextQuarter(Date date) {

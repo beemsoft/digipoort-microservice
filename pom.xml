@@ -20,6 +20,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
+    <start-class>org.techytax.digipoort.DigipoortTest</start-class>
   </properties>
   
   <dependencies>
@@ -60,10 +61,6 @@
       <artifactId>slf4j-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpcore</artifactId>
     </dependency>
@@ -74,14 +71,6 @@
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jdk8</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>net.logstash.logback</groupId>
-      <artifactId>logstash-logback-encoder</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -127,7 +116,7 @@
       <artifactId>techytax-xbrl</artifactId>
       <version>9.3</version>
       <scope>system</scope>
-      <systemPath>${basedir}/lib/xbrl/techytax-xbrl-9.3.jar</systemPath>
+      <systemPath>${basedir}/lib/xbrl/techytax-xbrl-11.0.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>

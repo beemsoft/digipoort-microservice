@@ -1,28 +1,9 @@
-/**
- * Copyright 2015 Hans Beemsterboer
- * 
- * This file is part of the TechyTax program.
- *
- * TechyTax is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- *
- * TechyTax is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with TechyTax; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
 package org.techytax.digipoort;
 
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
+import org.apache.cxf.ws.security.wss4j.PolicyBasedWSS4JInInterceptor;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
 import org.apache.ws.security.handler.WSHandlerConstants;
 import org.springframework.core.env.Environment;
@@ -31,7 +12,24 @@ import org.techytax.domain.VatDeclarationData;
 import org.techytax.security.ClientPasswordCallback;
 import org.techytax.security.SecureConnectionHelper;
 import org.techytax.util.DateHelper;
-import org.techytax.ws.*;
+import org.techytax.ws.AanleverRequest;
+import org.techytax.ws.AanleverResponse;
+import org.techytax.ws.AanleverServiceFault;
+import org.techytax.ws.AanleverServiceV12;
+import org.techytax.ws.AanleverServiceV12_Service;
+import org.techytax.ws.BerichtInhoudType;
+import org.techytax.ws.GetBerichtsoortenRequest;
+import org.techytax.ws.GetBerichtsoortenResponse;
+import org.techytax.ws.GetNieuweStatussenProcesRequest;
+import org.techytax.ws.GetNieuweStatussenProcesResponse;
+import org.techytax.ws.GetNieuweStatussenRequest;
+import org.techytax.ws.GetNieuweStatussenResponse;
+import org.techytax.ws.GetProcessenRequest;
+import org.techytax.ws.GetProcessenResponse;
+import org.techytax.ws.GetStatussenProcesRequest;
+import org.techytax.ws.GetStatussenProcesResponse;
+import org.techytax.ws.IdentiteitType;
+import org.techytax.ws.ObjectFactory;
 import org.techytax.wus.status.StatusinformatieServiceFault;
 import org.techytax.wus.status.StatusinformatieServiceV12;
 import org.techytax.wus.status.StatusinformatieServiceV12_Service;
@@ -180,8 +178,9 @@ public class DigipoortServiceImpl implements DigipoortService {
 		Map<String, Object> inProps = new HashMap<>();
 		inProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.TIMESTAMP + " " + WSHandlerConstants.SIGNATURE);
 		inProps.put(WSHandlerConstants.SIG_PROP_FILE, "client_verify.properties");
-		WSS4JInInterceptor wssIn = new WSS4JInInterceptor(inProps);
-		cxfEndpoint.getInInterceptors().add(wssIn);
+		PolicyBasedWSS4JInInterceptor policyInterceptor = new PolicyBasedWSS4JInInterceptor();
+		policyInterceptor.setProperties(inProps);
+		cxfEndpoint.getInInterceptors().add(policyInterceptor);
 		WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
 		cxfEndpoint.getOutInterceptors().add(wssOut);
 		cxfEndpoint.getOutInterceptors().add(new DynamicWsaSignaturePartsInterceptor());
