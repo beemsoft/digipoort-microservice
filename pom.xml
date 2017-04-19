@@ -20,7 +20,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <start-class>org.techytax.digipoort.DigipoortTest</start-class>
+    <start-class>org.techytax.digipoort.DigipoortApplication</start-class>
   </properties>
   
   <dependencies>
@@ -55,6 +55,11 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>2.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
