@@ -284,13 +284,13 @@ public class DigipoortServiceImpl implements DigipoortService {
 	}
 
 	@Override
-	public GetBerichtsoortenResponse getBerichtsoorten(VatDeclarationData vatDeclarationData) throws IOException,
+	public GetBerichtsoortenResponse getBerichtsoorten(String fiscalNumber) throws IOException,
 			GeneralSecurityException, StatusinformatieServiceFault {
 		StatusinformatieServiceV12 port = setupPortForStatus();
 		try {
 			GetBerichtsoortenRequest request = objectFactory.createGetBerichtsoortenRequest();
 			IdentiteitType identiteitType = objectFactory.createIdentiteitType();
-			identiteitType.setNummer(vatDeclarationData.getFiscalNumber());
+			identiteitType.setNummer(fiscalNumber);
 			identiteitType.setType(FISCAL_TYPE);
 			request.setIdentiteitBelanghebbende(identiteitType);
 			request.setAutorisatieAdres(AUTORISATIE_ADRES);

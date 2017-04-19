@@ -59,9 +59,8 @@ public class DigipoortTest {
   }
 
   private static GetBerichtsoortenResponse getBerichtsoorten() throws Exception {
-    VatDeclarationData vatDeclarationData = createVatDeclarationData();
     DigipoortServiceImpl digipoortService = new DigipoortServiceImpl();
-    return digipoortService.getBerichtsoorten(vatDeclarationData);
+    return digipoortService.getBerichtsoorten("");
   }
 
   private static VatDeclarationData createVatDeclarationData() throws Exception {

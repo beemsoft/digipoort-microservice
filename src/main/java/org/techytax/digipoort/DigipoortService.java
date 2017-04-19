@@ -117,14 +117,12 @@ public interface DigipoortService {
 	/**
 	 * Geeft alle berichtsoorten waarvoor namens een bepaalde belanghebbende
 	 * informatie is aangeleverd.
-	 * @param vatDeclarationData
-	 * 
-	 * @return
+	 *
+	 * @param fiscalNumber@return
 	 * @throws GeneralSecurityException 
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 * @throws StatusinformatieServiceFault 
 	 */
-	GetBerichtsoortenResponse getBerichtsoorten(
-    VatDeclarationData vatDeclarationData) throws IOException, GeneralSecurityException, StatusinformatieServiceFault;
+	GetBerichtsoortenResponse getBerichtsoorten(String fiscalNumber) throws IOException, GeneralSecurityException, StatusinformatieServiceFault;
 }
