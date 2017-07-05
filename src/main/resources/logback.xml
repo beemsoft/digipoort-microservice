@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+  <property name="LOG_FILE" value="${LOG_FILE:-digipoort-service.log}"/>
+  <appender name="log_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_FILE}</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <!-- monthly rollover -->
+      <fileNamePattern>digipoort-service.%i.log.gz</fileNamePattern>
+      <minIndex>1</minIndex>
+      <maxIndex>3</maxIndex>
+    </rollingPolicy>
+
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <maxFileSize>50MB</maxFileSize>
+    </triggeringPolicy>
+
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+      <includeContext>false</includeContext>
+    </encoder>
+  </appender>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%5p) %magenta(%-5(${PID:-N/A})) --- [%25.25t] %cyan(%-40.40logger{39}) : %m%n%wEx</pattern>
+      <charset>utf8</charset>
+    </encoder>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="log_file"/>
+  </root>
+</configuration>

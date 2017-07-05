@@ -1,5 +1,6 @@
 package org.techytax.digipoort;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
@@ -46,6 +47,7 @@ import java.util.Map;
 import java.util.Properties;
 
 @Service("digipoortService")
+@Slf4j
 public class DigipoortServiceImpl implements DigipoortService {
 
 	@Resource
@@ -76,8 +78,8 @@ public class DigipoortServiceImpl implements DigipoortService {
 	@Override
 	public AanleverResponse aanleveren(String xbrlInstance, String fiscalNumber) throws IOException, GeneralSecurityException, AanleverServiceFault {
 		AanleverServiceV12 port = setupWebServicePort();
-		System.out.println("Invoking aanleveren...");
-		AanleverRequest aanleverRequest = null;
+		log.info("Invoking aanleveren for fiscal number: " + fiscalNumber);
+		AanleverRequest aanleverRequest;
 		AanleverResponse aanleverResponse = null;
 		try {
 			aanleverRequest = createAanleverRequest(xbrlInstance, fiscalNumber);

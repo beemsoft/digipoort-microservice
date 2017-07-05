@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+
+spring:
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+      fail-on-empty-beans: false
+      WRITE_DATES_AS_TIMESTAMPS: false
