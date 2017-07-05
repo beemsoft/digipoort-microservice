@@ -175,7 +175,7 @@
 								<wsam:Anonymous>required</wsam:Anonymous>
 							</wsp:All>
 							<wsp:All>
-								<AnonymousResponses/>
+								<wsam:AnonymousResponses/>
 							</wsp:All>
 						</wsp:ExactlyOne>
 					</wsp:Policy>
