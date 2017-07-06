@@ -10,7 +10,7 @@ import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.Anstring8FItemType;
 import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.DateTimeItemType;
 import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.MonetaryNoDecimals10VItemType;
 import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.MonetaryNoDecimals9VItemType;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.techytax.domain.FiscalPeriod;
