@@ -5,7 +5,6 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.ws.security.wss4j.PolicyBasedWSS4JInInterceptor;
-import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
 import org.apache.ws.security.handler.WSHandlerConstants;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -77,7 +76,7 @@ public class DigipoortServiceImpl implements DigipoortService {
 
 	@Override
 	public AanleverResponse aanleveren(String xbrlInstance, String fiscalNumber) throws IOException, GeneralSecurityException, AanleverServiceFault {
-		AanleverServiceV12 port = setupWebServicePort();
+		AanleverServiceV12 port = setupPortForAanleveren();
 		log.info("Invoking aanleveren for fiscal number: " + fiscalNumber);
 		AanleverRequest aanleverRequest;
 		AanleverResponse aanleverResponse = null;
@@ -101,11 +100,15 @@ public class DigipoortServiceImpl implements DigipoortService {
 		return aanleverResponse;
 	}
 	
-	private AanleverServiceV12 setupWebServicePort() throws IOException, GeneralSecurityException {
+	private AanleverServiceV12 setupPortForAanleveren() throws IOException, GeneralSecurityException {
 		URL wsdlURL = getWsdlUrlForAanleveren();
 		AanleverServiceV12_Service ss = new AanleverServiceV12_Service(wsdlURL, AANLEVER_SERVICE_NAME);
 		AanleverServiceV12 port = ss.getAanleverServiceV12();
 		SecureConnectionHelper.setupTLS(port, keyProperties, trustProperties);
+
+		Map<String, Object> ctx = ((javax.xml.ws.BindingProvider)port).getRequestContext();
+		ctx.put("security.signature.properties", "client_sign.properties");
+
 		org.apache.cxf.endpoint.Client client = ClientProxy.getClient(port);
 		org.apache.cxf.endpoint.Endpoint cxfEndpoint = client.getEndpoint();
 		addLogging(cxfEndpoint);
@@ -118,6 +121,10 @@ public class DigipoortServiceImpl implements DigipoortService {
 		StatusinformatieServiceV12_Service ss = new StatusinformatieServiceV12_Service(wsdlURL, STATUS_SERVICE_NAME);
 		StatusinformatieServiceV12 port = ss.getStatusinformatieServiceV12();
 		SecureConnectionHelper.setupTLS(port, keyProperties, trustProperties);
+
+		Map<String, Object> ctx = ((javax.xml.ws.BindingProvider)port).getRequestContext();
+		ctx.put("security.signature.properties", "client_sign.properties");
+
 		org.apache.cxf.endpoint.Client client = ClientProxy.getClient(port);
 		org.apache.cxf.endpoint.Endpoint cxfEndpoint = client.getEndpoint();
 		addLogging(cxfEndpoint);
@@ -182,9 +189,6 @@ public class DigipoortServiceImpl implements DigipoortService {
 		inProps.put(WSHandlerConstants.SIG_PROP_FILE, "client_verify.properties");
 		PolicyBasedWSS4JInInterceptor policyInterceptor = new PolicyBasedWSS4JInInterceptor();
 		policyInterceptor.setProperties(inProps);
-		cxfEndpoint.getInInterceptors().add(policyInterceptor);
-		WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
-		cxfEndpoint.getOutInterceptors().add(wssOut);
 		cxfEndpoint.getOutInterceptors().add(new DynamicWsaSignaturePartsInterceptor());
 	}
 

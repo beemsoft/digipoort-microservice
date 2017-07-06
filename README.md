@@ -19,10 +19,6 @@ Handy commands:
 * openssl pkcs12 -info -nodes -in certificate.p12
 * keytool -list -v -storetype pkcs12 -keystore certificate.p12
 
-### CXF dependency
-
-The microservice has been tested with CXF version 2.7.1.
-
 ## Start command
 
 The microservice can be started with `mvn spring-boot:run`

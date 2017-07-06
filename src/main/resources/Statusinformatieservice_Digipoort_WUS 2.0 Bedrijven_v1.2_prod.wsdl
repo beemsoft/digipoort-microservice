@@ -257,8 +257,6 @@
 						<sp:AlgorithmSuite>
 							<wsp:Policy>
 								<sp:Basic128Rsa15/>
-								<sp:Basic256Rsa15/>
-								<sp:TripleDesRsa15/>
 							</wsp:Policy>
 						</sp:AlgorithmSuite>
 						<sp:IncludeTimestamp/>
@@ -273,7 +271,7 @@
 								<wsam:Anonymous>required</wsam:Anonymous>
 							</wsp:All>
 							<wsp:All>
-								<AnonymousResponses/>
+								<wsam:AnonymousResponses/>
 							</wsp:All>
 						</wsp:ExactlyOne>
 					</wsp:Policy>

@@ -159,8 +159,6 @@
 						<sp:AlgorithmSuite>
 							<wsp:Policy>
 								<sp:Basic128Rsa15/>
-								<sp:Basic256Rsa15/>
-								<sp:TripleDesRsa15/>
 							</wsp:Policy>
 						</sp:AlgorithmSuite>
 						<sp:IncludeTimestamp/>
