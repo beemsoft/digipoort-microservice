@@ -1,15 +1,15 @@
 package org.techytax.digipoort;
 
-import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_codes.ContactItemType;
-import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.Anstring10VItemType;
-import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.Anstring14VItemType;
-import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.Anstring200VItemType;
-import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.Anstring20VItemType;
-import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.Anstring30VItemType;
-import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.Anstring8FItemType;
-import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.DateTimeItemType;
-import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.MonetaryNoDecimals10VItemType;
-import nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.MonetaryNoDecimals9VItemType;
+import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_codes.ContactItemType;
+import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring10VItemType;
+import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring14VItemType;
+import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring200VItemType;
+import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring20VItemType;
+import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring30VItemType;
+import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring8FItemType;
+import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.DateTimeItemType;
+import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.MonetaryNoDecimals10VItemType;
+import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.MonetaryNoDecimals9VItemType;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -33,11 +33,12 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Component
-public class XbrlNtp11Helper {
+public class XbrlNtp12Helper {
 
 	private static final String CONTEXT_ID = "Msg";
 	private static final String ISO_EURO = "iso4217:EUR";
@@ -57,12 +58,12 @@ public class XbrlNtp11Helper {
 		Marshaller m;
 		try {
 			xbrlObjectFactory = new ObjectFactory();
-			jc = JAXBContext.newInstance(ObjectFactory.class, nl.nltaxonomie._9_0.domein.bd.tuples.bd_ob_tuples.ObjectFactory.class,
-					nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.ObjectFactory.class, org.xbrl._2006.xbrldi.ObjectFactory.class, org.xbrl._2003.xlink.ObjectFactory.class,
+			jc = JAXBContext.newInstance(ObjectFactory.class,
+					nl.nltaxonomie.nt12.bd._20171213_b.dictionary.bd_types.ObjectFactory.class, org.xbrl._2006.xbrldi.ObjectFactory.class, org.xbrl._2003.xlink.ObjectFactory.class,
 					nl.nltaxonomie._2011.xbrl.xbrl_syntax_extension.ObjectFactory.class, org.xbrl._2003.linkbase.ObjectFactory.class, org.xbrl._2005.xbrldt.ObjectFactory.class,
-					nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_domain_members.ObjectFactory.class,
-					nl.nltaxonomie.iso.iso4217.ObjectFactory.class, nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_algemeen.ObjectFactory.class,
-					nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_omzetbelasting.ObjectFactory.class);
+					nl.nltaxonomie.nt12.bd._20171213_b.dictionary.bd_domain_members.ObjectFactory.class,
+					nl.nltaxonomie.iso.iso4217.ObjectFactory.class,
+					nl.nltaxonomie.nt12.bd._20171213_b.dictionary.bd_data.ObjectFactory.class);
 			m = jc.createMarshaller();
 			StringWriter writer = new StringWriter();
 			m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
@@ -72,7 +73,7 @@ public class XbrlNtp11Helper {
 			org.xbrl._2003.xlink.ObjectFactory xlinkObjectFactory = new org.xbrl._2003.xlink.ObjectFactory();
 			SimpleType simpleType = xlinkObjectFactory.createSimpleType();
 			simpleType.setType("simple");
-			simpleType.setHref("http://www.nltaxonomie.nl/nt11/bd/20161207/entrypoints/bd-rpt-ob-aangifte-2017.xsd");
+			simpleType.setHref("http://www.nltaxonomie.nl/nt12/bd/20171213/entrypoints/bd-rpt-ob-aangifte-2018.xsd");
 			xbrl.getSchemaRef().add(simpleType);
 			xbrl.getOtherAttributes().put(new QName("xml:lang"), "nl");
 
@@ -97,119 +98,124 @@ public class XbrlNtp11Helper {
 			unit.getMeasure().add(qName);
 			xbrl.getItemOrTupleOrContext().add(unit);
 
-			nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.ObjectFactory bdTypeObjectFactory = new nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_types.ObjectFactory();
-			nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_omzetbelasting.ObjectFactory bdItemObjectFactory = new nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_omzetbelasting.ObjectFactory();
-			nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_algemeen.ObjectFactory bdAlgemeenObjectFactory = new nl.nltaxonomie.nt11.bd._20161207.dictionary.bd_algemeen.ObjectFactory();
-
+			nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.ObjectFactory bdTypeObjectFactory = new nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.ObjectFactory();
+			nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_data.ObjectFactory bdDataObjectFactory = new nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_data.ObjectFactory();
 			ContactItemType contactType = new ContactItemType();
 			contactType.setValue(BELASTING_PLICHTIGE);
 			contactType.setContextRef(context);
-			xbrl.getItemOrTupleOrContext().add(bdItemObjectFactory.createContactType(contactType));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createContactType(contactType));
 
 			Anstring10VItemType initials = bdTypeObjectFactory.createAnstring10VItemType();
 			initials.setValue(vatDeclarationData.getInitials());
 			initials.setContextRef(context);
-			xbrl.getItemOrTupleOrContext().add(bdAlgemeenObjectFactory.createContactInitials(initials));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createContactInitials(initials));
 
 			if (StringUtils.isNotEmpty(vatDeclarationData.getPrefix())) {
 				Anstring10VItemType prefix = bdTypeObjectFactory.createAnstring10VItemType();
 				prefix.setValue(vatDeclarationData.getPrefix());
 				prefix.setContextRef(context);
-				xbrl.getItemOrTupleOrContext().add(bdAlgemeenObjectFactory.createContactPrefix(prefix));
+				xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createContactPrefix(prefix));
 			}
 
 			Anstring200VItemType surname = bdTypeObjectFactory.createAnstring200VItemType();
 			surname.setValue(vatDeclarationData.getSurname());
 			surname.setContextRef(context);
-			xbrl.getItemOrTupleOrContext().add(bdAlgemeenObjectFactory.createContactSurname(surname));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createContactSurname(surname));
 
 			Anstring14VItemType telephoneNumber = bdTypeObjectFactory.createAnstring14VItemType();
 			telephoneNumber.setValue(vatDeclarationData.getPhoneNumber());
 			telephoneNumber.setContextRef(context);
-			xbrl.getItemOrTupleOrContext().add(bdAlgemeenObjectFactory.createContactTelephoneNumber(telephoneNumber));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createContactTelephoneNumber(telephoneNumber));
 
 			DateTimeItemType dateTime = bdTypeObjectFactory.createDateTimeItemType();
 			dateTime.setValue(DateHelper.getTimeStamp(new Date()));
 			dateTime.setContextRef(context);
-			xbrl.getItemOrTupleOrContext().add(bdAlgemeenObjectFactory.createDateTimeCreation(dateTime));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createDateTimeCreation(dateTime));
 
 			Anstring20VItemType supplier = bdTypeObjectFactory.createAnstring20VItemType();
 			supplier.setValue("OB-TechyTax-Ref-1");
 			supplier.setContextRef(context);
-			xbrl.getItemOrTupleOrContext().add(bdAlgemeenObjectFactory.createMessageReferenceSupplierVAT(supplier));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createMessageReferenceSupplierVAT(supplier));
 
 			Anstring20VItemType packageVersion = bdTypeObjectFactory.createAnstring20VItemType();
 //			packageVersion.setValue(PACKAGE_VERSION);
 			packageVersion.setValue("3.0");
 			packageVersion.setContextRef(context);
-			xbrl.getItemOrTupleOrContext().add(bdAlgemeenObjectFactory.createSoftwarePackageVersion(packageVersion));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createSoftwarePackageVersion(packageVersion));
 
 			Anstring30VItemType packageName = bdTypeObjectFactory.createAnstring30VItemType();
 			packageName.setValue(PACKAGE_NAME);
 			packageName.setContextRef(context);
-			xbrl.getItemOrTupleOrContext().add(bdAlgemeenObjectFactory.createSoftwarePackageName(packageName));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createSoftwarePackageName(packageName));
 
 			String softwareVendorAccountNumber = "SWO01088"; // environment.getProperty("software.vendor.account.number");
 			Anstring8FItemType softwareVendor = bdTypeObjectFactory.createAnstring8FItemType();
 			softwareVendor.setValue(softwareVendorAccountNumber);
 			softwareVendor.setContextRef(context);
-			xbrl.getItemOrTupleOrContext().add(bdAlgemeenObjectFactory.createSoftwareVendorAccountNumber(softwareVendor));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createSoftwareVendorAccountNumber(softwareVendor));
 
 			MonetaryNoDecimals10VItemType valueAddedTaxOnInput = bdTypeObjectFactory.createMonetaryNoDecimals10VItemType();
 			valueAddedTaxOnInput.setDecimals(DECIMALS_TYPE);
 			valueAddedTaxOnInput.setContextRef(context);
 			valueAddedTaxOnInput.setUnitRef(unit);
 			valueAddedTaxOnInput.setValue(vatDeclarationData.getValueAddedTaxOnInput());
-			xbrl.getItemOrTupleOrContext().add(bdItemObjectFactory.createValueAddedTaxOnInput(valueAddedTaxOnInput));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createValueAddedTaxOnInput(valueAddedTaxOnInput));
 
 			MonetaryNoDecimals10VItemType valueAddedTaxOwed = bdTypeObjectFactory.createMonetaryNoDecimals10VItemType();
 			valueAddedTaxOwed.setDecimals(DECIMALS_TYPE);
 			valueAddedTaxOwed.setContextRef(context);
 			valueAddedTaxOwed.setUnitRef(unit);
 			valueAddedTaxOwed.setValue(vatDeclarationData.getValueAddedTaxOwed());
-			xbrl.getItemOrTupleOrContext().add(bdItemObjectFactory.createValueAddedTaxOwed(valueAddedTaxOwed));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createValueAddedTaxOwed(valueAddedTaxOwed));
 
 			MonetaryNoDecimals9VItemType valueAddedTaxOwedToBePaidBack = bdTypeObjectFactory.createMonetaryNoDecimals9VItemType();
 			valueAddedTaxOwedToBePaidBack.setDecimals(DECIMALS_TYPE);
 			valueAddedTaxOwedToBePaidBack.setContextRef(context);
 			valueAddedTaxOwedToBePaidBack.setUnitRef(unit);
 			valueAddedTaxOwedToBePaidBack.setValue(vatDeclarationData.getValueAddedTaxOwedToBePaidBack());
-			xbrl.getItemOrTupleOrContext().add(bdItemObjectFactory.createValueAddedTaxOwedToBePaidBack(valueAddedTaxOwedToBePaidBack));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createValueAddedTaxOwedToBePaidBack(valueAddedTaxOwedToBePaidBack));
 
 			MonetaryNoDecimals9VItemType valueAddedTaxPrivateUse = bdTypeObjectFactory.createMonetaryNoDecimals9VItemType();
 			valueAddedTaxPrivateUse.setDecimals(DECIMALS_TYPE);
 			valueAddedTaxPrivateUse.setContextRef(context);
 			valueAddedTaxPrivateUse.setUnitRef(unit);
 			valueAddedTaxPrivateUse.setValue(vatDeclarationData.getValueAddedTaxPrivateUse());
-			xbrl.getItemOrTupleOrContext().add(bdItemObjectFactory.createValueAddedTaxPrivateUse(valueAddedTaxPrivateUse));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createValueAddedTaxPrivateUse(valueAddedTaxPrivateUse));
 
 			MonetaryNoDecimals9VItemType valueAddedTaxSuppliesServicesGeneralTariff = bdTypeObjectFactory.createMonetaryNoDecimals9VItemType();
 			valueAddedTaxSuppliesServicesGeneralTariff.setDecimals(DECIMALS_TYPE);
 			valueAddedTaxSuppliesServicesGeneralTariff.setContextRef(context);
 			valueAddedTaxSuppliesServicesGeneralTariff.setUnitRef(unit);
 			valueAddedTaxSuppliesServicesGeneralTariff.setValue(vatDeclarationData.getValueAddedTaxSuppliesServicesGeneralTariff());
-			xbrl.getItemOrTupleOrContext().add(bdItemObjectFactory.createValueAddedTaxSuppliesServicesGeneralTariff(valueAddedTaxSuppliesServicesGeneralTariff));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createValueAddedTaxSuppliesServicesGeneralTariff(valueAddedTaxSuppliesServicesGeneralTariff));
 
 			MonetaryNoDecimals10VItemType turnoverSuppliesServicesGenerallTariff = bdTypeObjectFactory.createMonetaryNoDecimals10VItemType();
 			turnoverSuppliesServicesGenerallTariff.setDecimals(DECIMALS_TYPE);
 			turnoverSuppliesServicesGenerallTariff.setContextRef(context);
 			turnoverSuppliesServicesGenerallTariff.setUnitRef(unit);
 			turnoverSuppliesServicesGenerallTariff.setValue(vatDeclarationData.getTaxedTurnoverSuppliesServicesGeneralTariff());
-			xbrl.getItemOrTupleOrContext().add(bdItemObjectFactory.createTaxedTurnoverSuppliesServicesGeneralTariff(turnoverSuppliesServicesGenerallTariff));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createTaxedTurnoverSuppliesServicesGeneralTariff(turnoverSuppliesServicesGenerallTariff));
 			
 			MonetaryNoDecimals10VItemType turnoverFromTaxedSuppliesFromCountriesWithinTheEC = bdTypeObjectFactory.createMonetaryNoDecimals10VItemType();
 			turnoverFromTaxedSuppliesFromCountriesWithinTheEC.setDecimals(DECIMALS_TYPE);
 			turnoverFromTaxedSuppliesFromCountriesWithinTheEC.setContextRef(context);
 			turnoverFromTaxedSuppliesFromCountriesWithinTheEC.setUnitRef(unit);
 			turnoverFromTaxedSuppliesFromCountriesWithinTheEC.setValue(vatDeclarationData.getTurnoverFromTaxedSuppliesFromCountriesWithinTheEC());			
-			xbrl.getItemOrTupleOrContext().add(bdItemObjectFactory.createTurnoverFromTaxedSuppliesFromCountriesWithinTheEC(turnoverFromTaxedSuppliesFromCountriesWithinTheEC));
-			
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createTurnoverFromTaxedSuppliesFromCountriesWithinTheEC(turnoverFromTaxedSuppliesFromCountriesWithinTheEC));
+
+			MonetaryNoDecimals9VItemType valueAddedTaxOnSuppliesFromCountriesOutsideTheEC = bdTypeObjectFactory.createMonetaryNoDecimals9VItemType();
+			valueAddedTaxOnSuppliesFromCountriesOutsideTheEC.setDecimals(DECIMALS_TYPE);
+			valueAddedTaxOnSuppliesFromCountriesOutsideTheEC.setContextRef(context);
+			valueAddedTaxOnSuppliesFromCountriesOutsideTheEC.setUnitRef(unit);
+			valueAddedTaxOnSuppliesFromCountriesOutsideTheEC.setValue(BigDecimal.ZERO);
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createValueAddedTaxOnSuppliesFromCountriesOutsideTheEC(valueAddedTaxOnSuppliesFromCountriesOutsideTheEC));
+
 			MonetaryNoDecimals9VItemType valueAddedTaxOnSuppliesFromCountriesWithinTheEC = bdTypeObjectFactory.createMonetaryNoDecimals9VItemType();
 			valueAddedTaxOnSuppliesFromCountriesWithinTheEC.setDecimals(DECIMALS_TYPE);
 			valueAddedTaxOnSuppliesFromCountriesWithinTheEC.setContextRef(context);
 			valueAddedTaxOnSuppliesFromCountriesWithinTheEC.setUnitRef(unit);
 			valueAddedTaxOnSuppliesFromCountriesWithinTheEC.setValue(vatDeclarationData.getValueAddedTaxOnSuppliesFromCountriesWithinTheEC());
-			xbrl.getItemOrTupleOrContext().add(bdItemObjectFactory.createValueAddedTaxOnSuppliesFromCountriesWithinTheEC(valueAddedTaxOnSuppliesFromCountriesWithinTheEC));
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createValueAddedTaxOnSuppliesFromCountriesWithinTheEC(valueAddedTaxOnSuppliesFromCountriesWithinTheEC));
 
 			m.marshal(xbrl, writer);
 
@@ -223,11 +229,11 @@ public class XbrlNtp11Helper {
 
 
 	public static void main(String[] args) throws Exception {
-		XbrlNtp11Helper xbrlNtp9Helper = new XbrlNtp11Helper();
+		XbrlNtp12Helper xbrlNtp12Helper = new XbrlNtp12Helper();
 //		MockEnvironment environment = new MockEnvironment();
 //		environment.setProperty("software.vendor.account.number", "123");
 //		xbrlNtp9Helper.environment = environment;
-		xbrlNtp9Helper.createTestXbrlInstance();
+		xbrlNtp12Helper.createTestXbrlInstance();
 	}
 
 	private String createTestXbrlInstance() throws Exception {

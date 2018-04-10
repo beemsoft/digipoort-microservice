@@ -82,7 +82,7 @@ public class DigipoortTest {
   }
 
   private static String createXbrlInstanceForEnvironment(VatDeclarationData vatDeclarationData) throws Exception {
-    String xbrlInstance = XbrlNtp11Helper.createXbrlInstance(vatDeclarationData);
+    String xbrlInstance = XbrlNtp12Helper.createXbrlInstance(vatDeclarationData);
     return xbrlInstance;
   }
 

@@ -102,9 +102,9 @@
     <dependency>
       <groupId>org.techytax</groupId>
       <artifactId>techytax-xbrl</artifactId>
-      <version>9.3</version>
+      <version>12.4</version>
       <scope>system</scope>
-      <systemPath>${basedir}/lib/xbrl/techytax-xbrl-11.0.jar</systemPath>
+      <systemPath>${basedir}/lib/xbrl/techytax-xbrl-12.4-20180410.185143-1.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
