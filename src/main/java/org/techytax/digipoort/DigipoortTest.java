@@ -26,8 +26,8 @@ public class DigipoortTest {
 //    doAanleveren();
 //    getNieuweStatussen();
 //    getStatussenProces();
-    getProcessen();
-//    getBerichtsoorten();
+//    getProcessen();
+    getBerichtsoorten();
   }
 
   private static AanleverResponse doAanleveren() throws Exception {
@@ -58,7 +58,7 @@ public class DigipoortTest {
     return digipoortService.getProcessen(vatDeclarationData);
   }
 
-  private static GetBerichtsoortenResponse getBerichtsoorten() throws Exception {
+  public static GetBerichtsoortenResponse getBerichtsoorten() throws Exception {
     DigipoortServiceImpl digipoortService = new DigipoortServiceImpl();
     return digipoortService.getBerichtsoorten("");
   }
