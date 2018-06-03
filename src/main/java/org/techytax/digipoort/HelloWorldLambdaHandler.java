@@ -1,13 +1,18 @@
 package org.techytax.digipoort;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import java.util.Map;
+public class HelloWorldLambdaHandler implements RequestHandler<Object, String> {
 
-public class HelloWorldLambdaHandler  {
-  public String handleRequest(Map<String,Object> input, Context context) throws Exception {
+  @Override
+  public String handleRequest(Object input, Context context) {
     System.out.println(input);
-    DigipoortTest.getBerichtsoorten();
+    try {
+      DigipoortTest.getBerichtsoorten();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     return "Hello";
   }
 }
