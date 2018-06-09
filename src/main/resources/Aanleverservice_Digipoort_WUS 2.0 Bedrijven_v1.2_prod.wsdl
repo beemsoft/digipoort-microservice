@@ -89,7 +89,7 @@
 	</wsdl:documentation>
 	<wsdl:types>
 		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-			<xsd:import namespace="http://logius.nl/digipoort/koppelvlakservices/1.2/" schemaLocation="../digipoort-koppelvlak-1.2.xsd"/>
+			<xsd:import namespace="http://logius.nl/digipoort/koppelvlakservices/1.2/" schemaLocation="/xsd/digipoort-koppelvlak-1.2.xsd"/>
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="aanleverMessageRequest">

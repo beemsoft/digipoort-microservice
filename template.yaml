@@ -8,3 +8,5 @@ Resources:
       Handler: org.techytax.digipoort.HelloWorldLambdaHandler::handleRequest
       CodeUri: target/unzipped
       Runtime: java8
+      Timeout: 30
+
