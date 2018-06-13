@@ -1,10 +1,10 @@
 package org.techytax.digipoort;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.apache.cxf.ws.security.wss4j.PolicyBasedWSS4JInInterceptor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.ws.security.handler.WSHandlerConstants;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -46,8 +46,8 @@ import java.util.Map;
 import java.util.Properties;
 
 @Service("digipoortService")
-@Slf4j
 public class DigipoortServiceImpl implements DigipoortService {
+	private static final Logger log = LogManager.getLogger(DigipoortServiceImpl.class);
 
 	@Resource
 	private Environment environment;
@@ -187,8 +187,6 @@ public class DigipoortServiceImpl implements DigipoortService {
 		Map<String, Object> inProps = new HashMap<>();
 		inProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.TIMESTAMP + " " + WSHandlerConstants.SIGNATURE);
 		inProps.put(WSHandlerConstants.SIG_PROP_FILE, "client_verify.properties");
-		PolicyBasedWSS4JInInterceptor policyInterceptor = new PolicyBasedWSS4JInInterceptor();
-		policyInterceptor.setProperties(inProps);
 		cxfEndpoint.getOutInterceptors().add(new DynamicWsaSignaturePartsInterceptor());
 	}
 
@@ -294,6 +292,7 @@ public class DigipoortServiceImpl implements DigipoortService {
 			GeneralSecurityException, StatusinformatieServiceFault {
 		StatusinformatieServiceV12 port = setupPortForStatus();
 		try {
+			log.info("Get berichtsoorten");
 			GetBerichtsoortenRequest request = objectFactory.createGetBerichtsoortenRequest();
 			IdentiteitType identiteitType = objectFactory.createIdentiteitType();
 			identiteitType.setNummer(fiscalNumber);
