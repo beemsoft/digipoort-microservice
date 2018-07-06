@@ -62,13 +62,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.techytax</groupId>
-      <artifactId>techytax-xbrl</artifactId>
-      <version>12.4</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/lib/xbrl/techytax-xbrl-12.4-20180410.185143-1.jar</systemPath>
-    </dependency>
-    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.16.10</version>
@@ -87,6 +80,12 @@
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-jaxws</artifactId>
       <version>${cxf.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-ws-policy</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
@@ -97,7 +96,7 @@
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-ws-policy</artifactId>
       <version>${cxf.version}</version>
-      <scope>runtime</scope>
+      <classifier>tweaked</classifier>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
@@ -113,17 +112,12 @@
           <artifactId>slf4j-api</artifactId>
         </exclusion>
       </exclusions>
+      <classifier>tweaked</classifier>
     </dependency>
     <dependency>
       <groupId>org.apache.ws.security</groupId>
       <artifactId>wss4j</artifactId>
       <version>1.6.19</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.santuario</groupId>
@@ -164,9 +158,19 @@
 
     <!-- Override CXF policy -->
     <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-ws-policy</artifactId>
-      <version>3.1.12</version>
+      <groupId>org.apache.wss4j</groupId>
+      <artifactId>wss4j-ws-security-common</artifactId>
+      <version>2.1.10</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wss4j</groupId>
+      <artifactId>wss4j-ws-security-dom</artifactId>
+      <version>2.1.10</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.neethi</groupId>
+      <artifactId>neethi</artifactId>
+      <version>3.1.1</version>
     </dependency>
   </dependencies>
   <build>
@@ -229,8 +233,8 @@
         <artifactId>maven-resources-plugin</artifactId>
         <configuration>
           <nonFilteredFileExtensions>
-            <nonFilteredFileExtension>proto</nonFilteredFileExtension>
-            <nonFilteredFileExtension>desc</nonFilteredFileExtension>
+            <nonFilteredFileExtension>p12</nonFilteredFileExtension>
+            <nonFilteredFileExtension>jks</nonFilteredFileExtension>
           </nonFilteredFileExtensions>
         </configuration>
       </plugin>
@@ -295,7 +299,7 @@
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>${project.build.directory}/unzipped</outputDirectory>
-                  <includes>**/*.class,**/*.xml,**/*.jar,**/*.properties,**/*.wsdl,**/*.xsd</includes>
+                  <includes>**/*.class,**/*.xml,**/*.jar,**/*.properties,**/*.wsdl,**/*.xsd,**/*.p12,**/*.jks</includes>
                 </artifactItem>
               </artifactItems>
             </configuration>

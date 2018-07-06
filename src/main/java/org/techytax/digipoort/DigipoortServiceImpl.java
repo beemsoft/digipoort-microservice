@@ -54,6 +54,7 @@ public class DigipoortServiceImpl implements DigipoortService {
 	private Environment environment;
 
 	private static final String OMZETBELASTING = "Omzetbelasting";
+	private static final String INVOICE = "FACTUUR-UBL";
 	private static final String FISCAL_TYPE = "Fi";
 	private static final String AUTORISATIE_ADRES = "http://geenausp.nl";
 	private static final QName AANLEVER_SERVICE_NAME = new QName("http://logius.nl/digipoort/wus/2.0/aanleverservice/1.2/", "AanleverService_V1_2");
@@ -196,12 +197,13 @@ public class DigipoortServiceImpl implements DigipoortService {
 	private AanleverRequest createAanleverRequest(String xbrlInstance, String fiscalNumber) throws IOException {
 		AanleverRequest aanleverRequest = new AanleverRequest();
 		aanleverRequest.setAutorisatieAdres(AUTORISATIE_ADRES);
-		aanleverRequest.setBerichtsoort(OMZETBELASTING);
-		aanleverRequest.setRolBelanghebbende("Bedrijf");
+		aanleverRequest.setBerichtsoort(INVOICE);
+		aanleverRequest.setRolBelanghebbende("LEVERANCIER");
+		aanleverRequest.setRolOntvanger("KLANT");
 		BerichtInhoudType berichtInhoud = new BerichtInhoudType();
 		berichtInhoud.setMimeType("application/xml");
-		berichtInhoud.setBestandsnaam("Omzetbelasting.xbrl");
-		berichtInhoud.setInhoud(xbrlInstance.replaceAll(">\\s+<", "><").trim().getBytes("UTF-8"));		
+		berichtInhoud.setBestandsnaam("Invoice.xml");
+		berichtInhoud.setInhoud(xbrlInstance.replaceAll(">\\s+<", "><").trim().getBytes("UTF-8"));
 		addIdentiteit(fiscalNumber, aanleverRequest);
 		aanleverRequest.setBerichtInhoud(berichtInhoud);
 		return aanleverRequest;
@@ -212,6 +214,11 @@ public class DigipoortServiceImpl implements DigipoortService {
 		identiteitBelanghebbende.setNummer(fiscalNumber);
 		identiteitBelanghebbende.setType(FISCAL_TYPE);
 		aanleverRequest.setIdentiteitBelanghebbende(identiteitBelanghebbende);
+
+		IdentiteitType identiteitOntvanger = new IdentiteitType();
+		identiteitOntvanger.setNummer("00000004000000062000");
+		identiteitOntvanger.setType("OIN");
+		aanleverRequest.setIdentiteitOntvanger(identiteitOntvanger);
 	}
 
 	@Override

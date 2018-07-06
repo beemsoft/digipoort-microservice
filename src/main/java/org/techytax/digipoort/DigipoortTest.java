@@ -29,9 +29,9 @@ public class DigipoortTest {
 //    digipoortService.getNieuweStatussen(vatDeclarationData);
 //    doAanleveren();
 //    getNieuweStatussen();
-//    getStatussenProces();
+    getStatussenProces();
 //    getProcessen();
-    getBerichtsoorten();
+//    getBerichtsoorten();
   }
 
   static AanleverResponse doAanleveren() throws Exception {
@@ -45,11 +45,11 @@ public class DigipoortTest {
     return digipoortService.getNieuweStatussen(vatDeclarationData);
   }
 
-  private static GetStatussenProcesResponse getStatussenProces() throws Exception {
+  static GetStatussenProcesResponse getStatussenProces() throws Exception {
     VatDeclarationData vatDeclarationData = createVatDeclarationData();
     vatDeclarationData.setEndDate(LocalDate.now().plusDays(1));
     DigipoortServiceImpl digipoortService = new DigipoortServiceImpl();
-    return digipoortService.getStatussenProces(vatDeclarationData, "");
+    return digipoortService.getStatussenProces(vatDeclarationData, "e1aa497a-03dc-4392-8deb-11e5534a505f");
   }
 
   private static GetProcessenResponse getProcessen() throws Exception {
@@ -80,11 +80,6 @@ public class DigipoortTest {
     vatDeclarationData.setValueAddedTaxOwedToBePaidBack(BigDecimal.valueOf(0));
     vatDeclarationData.setTaxedTurnoverSuppliesServicesGeneralTariff(BigDecimal.valueOf(0));
     return vatDeclarationData;
-  }
-
-  private static String createXbrlInstanceForEnvironment(VatDeclarationData vatDeclarationData) throws Exception {
-    String xbrlInstance = XbrlNtp12Helper.createXbrlInstance(vatDeclarationData);
-    return xbrlInstance;
   }
 
   private static String readXmlInvoice() {
