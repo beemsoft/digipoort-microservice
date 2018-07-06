@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc:Invoice 
+ xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 ../xsdrt/maindoc/Invoice.xsd urn:digi-inkoop:ubl:2.0:NL:1.7:UBL-NL-CommonBasicComponents-2 ../xsdrt/common/UBL-CommonBasicComponents-2.0-NL-1.7.xsd" 
+ xmlns:doc="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" 
+ xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+ xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+ xmlns:nl-cbc="urn:digi-inkoop:ubl:2.0:NL:1.7:UBL-NL-CommonBasicComponents-2">
+	<cbc:UBLVersionID>2.0</cbc:UBLVersionID>
+	<cbc:CustomizationID>1.9</cbc:CustomizationID>
+	<cbc:ProfileID>NL</cbc:ProfileID>
+	<cbc:ID>1951819</cbc:ID>
+	<cbc:CopyIndicator>false</cbc:CopyIndicator>
+	<cbc:IssueDate>2011-09-15</cbc:IssueDate>
+    <cbc:InvoiceTypeCode listAgencyID="88" listAgencyName="Logius Gegevensbeheer NL-Overheid" listID="NL-1001" listName="FactuurSoort" listSchemeURI="urn:digi-inkoop:ubl:2.0:NL:1.7:gc:InvoiceTypeCode" listURI="http://www.nltaxonomie.nl/ubl/2.0/NL/1.7/cl/gc/InvoiceTypeCode.gc" listVersionID="1.7">D</cbc:InvoiceTypeCode>
+	<cbc:AccountingCostCode>Onbekend</cbc:AccountingCostCode>
+	<cac:AccountingSupplierParty>
+		<cac:Party>
+			<cac:PartyIdentification>
+				<cbc:ID schemeAgencyID="NL" schemeAgencyName="KvK">181911512</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyName>
+				<cbc:Name>Staples</cbc:Name>
+			</cac:PartyName>
+			<cac:PostalAddress>
+				<cbc:StreetName>straat</cbc:StreetName>
+				<cbc:BuildingNumber>2</cbc:BuildingNumber>
+				<cbc:CityName>Plaats</cbc:CityName>
+				<cbc:PostalZone>1234AB</cbc:PostalZone>
+				<cac:Country>
+					<cbc:IdentificationCode
+						listAgencyName="United Nations Economic Commission for Europe"
+						listAgencyID="6" listName="Country" listID="ISO3166-1"
+						listSchemeURI="urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode"
+						listURI="http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/CountryIdentificationCode-2.0.gc"
+						listVersionID="0.3">NL</cbc:IdentificationCode>
+				</cac:Country>
+			</cac:PostalAddress>
+			<cac:PartyLegalEntity>
+				<cac:RegistrationAddress>
+					<cbc:Postbox>1</cbc:Postbox>
+					<cbc:CityName>Amsterdam</cbc:CityName>
+					<cbc:PostalZone>1000AA</cbc:PostalZone>
+					<cac:Country>
+						<cbc:IdentificationCode
+						    listID="ISO3166-1"
+							listAgencyID="6"
+							listAgencyName="United Nations Economic Commission for Europe"
+							listName="Country"
+							listVersionID="0.3"
+							listURI="http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/CountryIdentificationCode-2.0.gc"
+							listSchemeURI="urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode">NL</cbc:IdentificationCode>
+					</cac:Country>
+				</cac:RegistrationAddress>
+			</cac:PartyLegalEntity>
+		</cac:Party>
+	</cac:AccountingSupplierParty>
+    <cac:AccountingCustomerParty>
+        <cac:Party>
+            <cac:PartyIdentification>
+                <cbc:ID schemeAgencyID="NL" schemeAgencyName="BTW">NL12345678B01</cbc:ID>
+            </cac:PartyIdentification>
+            <cac:PartyName>
+                <cbc:Name>Logius</cbc:Name>
+            </cac:PartyName>
+            <cac:PostalAddress>
+	            <cbc:StreetName>Wilhelmina van Pruisenweg</cbc:StreetName>
+	            <cbc:BuildingNumber>52</cbc:BuildingNumber>
+	            <cbc:CityName>Den Haag</cbc:CityName>
+	            <cbc:PostalZone>2595 AN</cbc:PostalZone>
+	            <cac:Country>
+	                <cbc:IdentificationCode listAgencyName="United Nations Economic Commission for Europe" listAgencyID="6" listName="Country" listID="ISO3166-1" listSchemeURI="urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode" listURI="http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/CountryIdentificationCode-2.0.gc" listVersionID="0.3">NL</cbc:IdentificationCode>
+	            </cac:Country>
+            </cac:PostalAddress>
+			<cac:PartyLegalEntity>
+				<cac:RegistrationAddress>
+					<cbc:Postbox>2</cbc:Postbox>
+					<cbc:CityName>Amsterdam</cbc:CityName>
+					<cbc:PostalZone>1000AB</cbc:PostalZone>
+					<cac:Country>
+						<cbc:IdentificationCode
+						    listID="ISO3166-1"
+							listAgencyID="6"
+							listAgencyName="United Nations Economic Commission for Europe"
+							listName="Country"
+							listVersionID="0.3"
+							listURI="http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/CountryIdentificationCode-2.0.gc"
+							listSchemeURI="urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode">NL</cbc:IdentificationCode>
+					</cac:Country>
+				</cac:RegistrationAddress>
+			</cac:PartyLegalEntity>
+        </cac:Party>
+    </cac:AccountingCustomerParty>
+    <cac:BuyerCustomerParty>
+        <cbc:SupplierAssignedAccountID>131579</cbc:SupplierAssignedAccountID>
+        <cac:Party>
+            <cac:PartyIdentification>
+                <cbc:ID schemeAgencyID="NL" schemeAgencyName="BTW">NL12345678B01</cbc:ID>
+            </cac:PartyIdentification>
+            <cac:PartyName>
+                <cbc:Name>Logius</cbc:Name>
+            </cac:PartyName>
+			<cac:PostalAddress>
+				<cbc:StreetName>straat</cbc:StreetName>
+				<cbc:BuildingNumber>4</cbc:BuildingNumber>
+				<cbc:CityName>Plaats</cbc:CityName>
+				<cbc:PostalZone>1234AB</cbc:PostalZone>
+				<cac:Country>
+					<cbc:IdentificationCode
+						listAgencyName="United Nations Economic Commission for Europe"
+						listAgencyID="6" listName="Country" listID="ISO3166-1"
+						listSchemeURI="urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode"
+						listURI="http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/CountryIdentificationCode-2.0.gc"
+						listVersionID="0.3">NL</cbc:IdentificationCode>
+				</cac:Country>
+			</cac:PostalAddress>
+			<cac:PartyLegalEntity>
+				<cac:RegistrationAddress>
+					<cbc:Postbox>3</cbc:Postbox>
+					<cbc:CityName>Amsterdam</cbc:CityName>
+					<cbc:PostalZone>1000AC</cbc:PostalZone>
+					<cac:Country>
+						<cbc:IdentificationCode
+						    listID="ISO3166-1"
+							listAgencyID="6"
+							listAgencyName="United Nations Economic Commission for Europe"
+							listName="Country"
+							listVersionID="0.3"
+							listURI="http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/CountryIdentificationCode-2.0.gc"
+							listSchemeURI="urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode">NL</cbc:IdentificationCode>
+					</cac:Country>
+				</cac:RegistrationAddress>
+			</cac:PartyLegalEntity>
+        </cac:Party>
+    </cac:BuyerCustomerParty>
+	<cac:SellerSupplierParty>
+		<cac:Party>
+            <cac:PartyIdentification>
+                <cbc:ID schemeAgencyID="NL" schemeAgencyName="KvK">181911512</cbc:ID>
+            </cac:PartyIdentification>
+			<cac:PartyName>
+				<cbc:Name>Staples</cbc:Name>
+			</cac:PartyName>
+			<cac:PostalAddress>
+                <cbc:StreetName>Van Broeckhuysstraat</cbc:StreetName>
+                <cbc:BuildingNumber>27</cbc:BuildingNumber>
+                <cbc:CityName>Lutjebroek</cbc:CityName>
+                <cbc:PostalZone>1653 AZ</cbc:PostalZone>
+				<cac:Country>
+					<cbc:IdentificationCode listAgencyName="United Nations Economic Commission for Europe" listAgencyID="6" listName="Country" listID="ISO3166-1" listSchemeURI="urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode" listURI="http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/CountryIdentificationCode-2.0.gc" listVersionID="0.3">NL</cbc:IdentificationCode>
+				</cac:Country>
+			</cac:PostalAddress>
+			<cac:PartyLegalEntity>
+				<cac:RegistrationAddress>
+					<cbc:Postbox>4</cbc:Postbox>
+					<cbc:CityName>Amsterdam</cbc:CityName>
+					<cbc:PostalZone>1000AD</cbc:PostalZone>
+					<cac:Country>
+						<cbc:IdentificationCode
+						    listID="ISO3166-1"
+							listAgencyID="6"
+							listAgencyName="United Nations Economic Commission for Europe"
+							listName="Country"
+							listVersionID="0.3"
+							listURI="http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/CountryIdentificationCode-2.0.gc"
+							listSchemeURI="urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode">NL</cbc:IdentificationCode>
+					</cac:Country>
+				</cac:RegistrationAddress>
+			</cac:PartyLegalEntity>
+		</cac:Party>
+	</cac:SellerSupplierParty>
+    <cac:Delivery>
+        <cbc:ActualDeliveryDate>2011-09-13</cbc:ActualDeliveryDate>
+    </cac:Delivery>
+    <cac:PaymentMeans>
+		<cbc:PaymentMeansCode
+		    listID="UN/ECE 4461"
+			listAgencyID="6"
+			listAgencyName="United Nations Economic Commission for Europe"
+			listName="Payment Means"
+			listVersionID="D03A"
+			listURI="http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/PaymentMeansCode-2.0.gc"
+			listSchemeURI="urn:oasis:names:specification:ubl:codelist:gc:PaymentMeansCode">22</cbc:PaymentMeansCode>
+        <cac:PayeeFinancialAccount>
+            <cbc:ID>1234567</cbc:ID>
+            <cac:FinancialInstitutionBranch>
+                <cac:FinancialInstitution>
+                    <cbc:ID>ING</cbc:ID>
+                </cac:FinancialInstitution>
+            </cac:FinancialInstitutionBranch>
+        </cac:PayeeFinancialAccount>
+    </cac:PaymentMeans>
+	<cac:TaxTotal>
+		<cbc:TaxAmount currencyID="EUR">1799.58</cbc:TaxAmount>
+		<cac:TaxSubtotal>
+			<cbc:TaxableAmount currencyID="EUR">2473.85</cbc:TaxableAmount>
+			<cbc:TaxAmount currencyID="EUR">470.03</cbc:TaxAmount>
+			<cbc:Percent>19.00</cbc:Percent>
+            <cac:TaxCategory>
+                <cac:TaxScheme>
+                    <cbc:Name>BTW</cbc:Name>
+                </cac:TaxScheme>
+            </cac:TaxCategory>
+		</cac:TaxSubtotal>
+		<cac:TaxSubtotal>
+			<cbc:TaxableAmount currencyID="EUR">22159.15</cbc:TaxableAmount>
+			<cbc:TaxAmount currencyID="EUR">1329.55</cbc:TaxAmount>
+			<cbc:Percent>6.00</cbc:Percent>
+            <cac:TaxCategory>
+                <cac:TaxScheme>
+                    <cbc:Name>BTW</cbc:Name>
+                </cac:TaxScheme>
+            </cac:TaxCategory>
+		</cac:TaxSubtotal>
+	</cac:TaxTotal>
+	<cac:LegalMonetaryTotal>
+		<cbc:LineExtensionAmount currencyID="EUR">24633.00</cbc:LineExtensionAmount>
+		<cbc:TaxExclusiveAmount currencyID="EUR">24633.00</cbc:TaxExclusiveAmount>
+		<cbc:TaxInclusiveAmount currencyID="EUR">26432.58</cbc:TaxInclusiveAmount>
+		<cbc:PayableAmount currencyID="EUR">26432.58</cbc:PayableAmount>
+	</cac:LegalMonetaryTotal>
+    <cac:InvoiceLine>
+        <cbc:ID>001</cbc:ID>
+        <cbc:InvoicedQuantity unitCode="EA">10</cbc:InvoicedQuantity>
+        <cbc:LineExtensionAmount currencyID="EUR">1791.00</cbc:LineExtensionAmount>
+        <cbc:FreeOfChargeIndicator>false</cbc:FreeOfChargeIndicator>
+        <cac:AllowanceCharge>
+            <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+            <cbc:MultiplierFactorNumeric>0.10</cbc:MultiplierFactorNumeric>
+            <cbc:Amount currencyID="EUR">19.90</cbc:Amount>
+            <cbc:BaseAmount currencyID="EUR">199.00</cbc:BaseAmount>
+        </cac:AllowanceCharge>
+        <cac:TaxTotal>
+            <cbc:TaxAmount currencyID="EUR">340.29</cbc:TaxAmount>
+            <cac:TaxSubtotal>
+                <cbc:TaxableAmount currencyID="EUR">1791.00</cbc:TaxableAmount>
+                <cbc:TaxAmount currencyID="EUR">340.29</cbc:TaxAmount>
+                <cbc:Percent>19.00</cbc:Percent>
+                <cac:TaxCategory>
+                    <cac:TaxScheme>
+                        <cbc:Name>BTW</cbc:Name>
+                    </cac:TaxScheme>
+                </cac:TaxCategory>
+            </cac:TaxSubtotal>
+        </cac:TaxTotal>
+        <cac:Item>
+            <cbc:Description>iPAQ 114</cbc:Description>
+            <cbc:CatalogueIndicator>false</cbc:CatalogueIndicator>
+            <cbc:Name>iPAQ 114</cbc:Name>
+            <cac:ClassifiedTaxCategory>
+                <cbc:Percent>19</cbc:Percent>
+                <cac:TaxScheme>
+                    <cbc:Name>BTW</cbc:Name>
+                </cac:TaxScheme>
+            </cac:ClassifiedTaxCategory>
+        </cac:Item>
+        <cac:Price>
+            <cbc:PriceAmount currencyID="EUR">179.10</cbc:PriceAmount>
+            <cbc:BaseQuantity unitCode="EA">1</cbc:BaseQuantity>
+        </cac:Price>
+    </cac:InvoiceLine>
+    <cac:InvoiceLine>
+        <cbc:ID>002</cbc:ID>
+        <cbc:InvoicedQuantity unitCode="EA">80</cbc:InvoicedQuantity>
+        <cbc:LineExtensionAmount currencyID="EUR">20592.00</cbc:LineExtensionAmount>
+        <cbc:FreeOfChargeIndicator>false</cbc:FreeOfChargeIndicator>
+        <cac:AllowanceCharge>
+            <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+            <cbc:MultiplierFactorNumeric>0.40</cbc:MultiplierFactorNumeric>
+            <cbc:Amount currencyID="EUR">171.60</cbc:Amount>
+            <cbc:BaseAmount currencyID="EUR">429.00</cbc:BaseAmount>
+        </cac:AllowanceCharge>
+        <cac:TaxTotal>
+            <cbc:TaxAmount currencyID="SEK">3912.48</cbc:TaxAmount>
+            <cac:TaxSubtotal>
+                <cbc:TaxableAmount currencyID="EUR">20592.00</cbc:TaxableAmount>
+                <cbc:TaxAmount currencyID="EUR">1235.52</cbc:TaxAmount>
+                <cbc:Percent>19.00</cbc:Percent>
+                <cac:TaxCategory>
+                    <cac:TaxScheme>
+                        <cbc:Name>BTW</cbc:Name>
+                    </cac:TaxScheme>
+                </cac:TaxCategory>
+            </cac:TaxSubtotal>
+        </cac:TaxTotal>
+        <cac:Item>
+            <cbc:Description>HTC Hero</cbc:Description>
+            <cbc:CatalogueIndicator>false</cbc:CatalogueIndicator>
+            <cbc:Name>HTC Hero</cbc:Name>
+            <cac:ClassifiedTaxCategory>
+                <cbc:Percent>6</cbc:Percent>
+                <cac:TaxScheme>
+                    <cbc:Name>BTW</cbc:Name>
+                </cac:TaxScheme>
+            </cac:ClassifiedTaxCategory>
+        </cac:Item>
+        <cac:Price>
+            <cbc:PriceAmount currencyID="EUR">257.40</cbc:PriceAmount>
+            <cbc:BaseQuantity unitCode="EA">1</cbc:BaseQuantity>
+        </cac:Price>
+    </cac:InvoiceLine>
+	<cac:InvoiceLine>
+		<cbc:ID>003</cbc:ID>
+		<cbc:InvoicedQuantity unitCode="EA">10</cbc:InvoicedQuantity>
+		<cbc:LineExtensionAmount currencyID="EUR">2250.00</cbc:LineExtensionAmount>
+		<cbc:FreeOfChargeIndicator>false</cbc:FreeOfChargeIndicator>
+		<cac:AllowanceCharge>
+			<cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+			<cbc:MultiplierFactorNumeric>0.10</cbc:MultiplierFactorNumeric>
+			<cbc:Amount currencyID="EUR">25.00</cbc:Amount>
+			<cbc:BaseAmount currencyID="EUR">250.00</cbc:BaseAmount>
+		</cac:AllowanceCharge>
+		<cac:TaxTotal>
+			<cbc:TaxAmount currencyID="EUR">223.77</cbc:TaxAmount>
+			<cac:TaxSubtotal>
+				<cbc:TaxableAmount currencyID="EUR">682.85</cbc:TaxableAmount>
+				<cbc:TaxAmount currencyID="EUR">129.74</cbc:TaxAmount>
+				<cbc:Percent>19.00</cbc:Percent>
+				<cac:TaxCategory>
+                    <cac:TaxScheme>
+                        <cbc:Name>BTW</cbc:Name>
+                    </cac:TaxScheme>
+				</cac:TaxCategory>
+			</cac:TaxSubtotal>
+			<cac:TaxSubtotal>
+				<cbc:TaxableAmount currencyID="EUR">1567.15</cbc:TaxableAmount>
+				<cbc:TaxAmount currencyID="EUR">94.03</cbc:TaxAmount>
+				<cbc:Percent>6.00</cbc:Percent>
+				<cac:TaxCategory>
+                    <cac:TaxScheme>
+                        <cbc:Name>BTW</cbc:Name>
+                    </cac:TaxScheme>
+				</cac:TaxCategory>
+			</cac:TaxSubtotal>
+		</cac:TaxTotal>
+		<cac:Item>
+            <cbc:Description>Sony Ericsson C903</cbc:Description>
+			<cbc:CatalogueIndicator>false</cbc:CatalogueIndicator>
+			<cbc:Name>Sony Ericsson C903</cbc:Name>
+            <cac:ClassifiedTaxCategory>
+                <cbc:Percent>6</cbc:Percent>
+                <cac:TaxScheme>
+                    <cbc:Name>BTW</cbc:Name>
+                </cac:TaxScheme>
+            </cac:ClassifiedTaxCategory>
+            <cac:ClassifiedTaxCategory>
+                <cbc:Percent>19</cbc:Percent>
+                <cac:TaxScheme>
+                    <cbc:Name>BTW</cbc:Name>
+                </cac:TaxScheme>
+            </cac:ClassifiedTaxCategory>
+		</cac:Item>
+		<cac:Price>
+			<cbc:PriceAmount currencyID="EUR">225.00</cbc:PriceAmount>
+			<cbc:BaseQuantity unitCode="EA">1</cbc:BaseQuantity>
+		</cac:Price>
+	</cac:InvoiceLine>
+</doc:Invoice>

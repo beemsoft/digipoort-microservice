@@ -9,7 +9,7 @@ public class HelloWorldLambdaHandler implements RequestHandler<Object, String> {
   public String handleRequest(Object input, Context context) {
     System.out.println(input);
     try {
-      DigipoortTest.getBerichtsoorten();
+      DigipoortTest.getStatussenProces();
     } catch (Exception e) {
       e.printStackTrace();
     }

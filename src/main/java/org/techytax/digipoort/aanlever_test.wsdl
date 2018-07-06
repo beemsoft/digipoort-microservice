@@ -130,7 +130,7 @@
 	</wsdl:binding>
 	<wsdl:service name="AanleverService_V1_2">
 		<wsdl:port name="AanleverService_V1_2" binding="tns:AanleverServiceSoapBinding_V1_2">
-			<soap11:address location="https://preprod.procesinfrastructuur.nl/wus/2.0/aanleverservice/1.2"/>
+			<soap11:address location="https://preprod-dgp.procesinfrastructuur.nl/wus/2.0/aanleverservice/1.2"/>
 		</wsdl:port>
 	</wsdl:service>
 	<wsp:Policy wsu:Id="X509EndpointPolicy">

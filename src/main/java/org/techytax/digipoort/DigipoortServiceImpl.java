@@ -3,6 +3,7 @@ package org.techytax.digipoort;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
+import org.apache.cxf.ws.security.wss4j.PolicyBasedWSS4JInInterceptor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.ws.security.handler.WSHandlerConstants;
@@ -187,6 +188,8 @@ public class DigipoortServiceImpl implements DigipoortService {
 		Map<String, Object> inProps = new HashMap<>();
 		inProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.TIMESTAMP + " " + WSHandlerConstants.SIGNATURE);
 		inProps.put(WSHandlerConstants.SIG_PROP_FILE, "client_verify.properties");
+		PolicyBasedWSS4JInInterceptor policyInterceptor = new PolicyBasedWSS4JInInterceptor();
+		policyInterceptor.setProperties(inProps);
 		cxfEndpoint.getOutInterceptors().add(new DynamicWsaSignaturePartsInterceptor());
 	}
 
