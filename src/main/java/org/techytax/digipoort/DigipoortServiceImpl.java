@@ -1,5 +1,6 @@
 package org.techytax.digipoort;
 
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
@@ -7,9 +8,8 @@ import org.apache.cxf.ws.security.wss4j.PolicyBasedWSS4JInInterceptor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.ws.security.handler.WSHandlerConstants;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.techytax.domain.VatDeclarationData;
+import org.techytax.digipoort.lambda.event.LambdaEvent;
 import org.techytax.security.ClientPasswordCallback;
 import org.techytax.security.SecureConnectionHelper;
 import org.techytax.util.DateHelper;
@@ -36,22 +36,23 @@ import org.techytax.wus.status.StatusinformatieServiceV12;
 import org.techytax.wus.status.StatusinformatieServiceV12_Service;
 import org.techytax.xbrl.DynamicWsaSignaturePartsInterceptor;
 
-import javax.annotation.Resource;
 import javax.xml.namespace.QName;
 import javax.xml.ws.soap.SOAPFaultException;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.security.GeneralSecurityException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 @Service("digipoortService")
 public class DigipoortServiceImpl implements DigipoortService {
 	private static final Logger log = LogManager.getLogger(DigipoortServiceImpl.class);
-
-	@Resource
-	private Environment environment;
 
 	private static final String OMZETBELASTING = "Omzetbelasting";
 	private static final String INVOICE = "FACTUUR-UBL";
@@ -77,13 +78,13 @@ public class DigipoortServiceImpl implements DigipoortService {
 	}
 
 	@Override
-	public AanleverResponse aanleveren(String xbrlInstance, String fiscalNumber) throws IOException, GeneralSecurityException, AanleverServiceFault {
-		AanleverServiceV12 port = setupPortForAanleveren();
-		log.info("Invoking aanleveren for fiscal number: " + fiscalNumber);
+	public AanleverResponse aanleveren(LambdaEvent lambdaEvent) throws IOException, GeneralSecurityException, AanleverServiceFault {
+		AanleverServiceV12 port = setupPortForAanleveren(lambdaEvent.getMode());
+		log.info("Invoking aanleveren for fiscal number: " + lambdaEvent.getSendInvoice().getSenderId());
 		AanleverRequest aanleverRequest;
 		AanleverResponse aanleverResponse = null;
 		try {
-			aanleverRequest = createAanleverRequest(xbrlInstance, fiscalNumber);
+			aanleverRequest = createAanleverRequest(lambdaEvent);
 			aanleverResponse = port.aanleveren(aanleverRequest);
 			System.out.println("aanleveren.result=" + aanleverResponse);
 			System.out.println("Aangeleverd=" + aanleverResponse.getTijdstempelAangeleverd());
@@ -102,8 +103,8 @@ public class DigipoortServiceImpl implements DigipoortService {
 		return aanleverResponse;
 	}
 	
-	private AanleverServiceV12 setupPortForAanleveren() throws IOException, GeneralSecurityException {
-		URL wsdlURL = getWsdlUrlForAanleveren();
+	private AanleverServiceV12 setupPortForAanleveren(String digipoortMode) throws IOException, GeneralSecurityException {
+		URL wsdlURL = getWsdlUrlForAanleveren(digipoortMode);
 		AanleverServiceV12_Service ss = new AanleverServiceV12_Service(wsdlURL, AANLEVER_SERVICE_NAME);
 		AanleverServiceV12 port = ss.getAanleverServiceV12();
 		SecureConnectionHelper.setupTLS(port, keyProperties, trustProperties);
@@ -118,8 +119,8 @@ public class DigipoortServiceImpl implements DigipoortService {
 		return port;
 	}
 
-	private StatusinformatieServiceV12 setupPortForStatus() throws IOException, GeneralSecurityException {
-		URL wsdlURL = getWsdlUrlForStatus();
+	private StatusinformatieServiceV12 setupPortForStatus(String digipoortMode) throws IOException, GeneralSecurityException {
+		URL wsdlURL = getWsdlUrlForStatus(digipoortMode);
 		StatusinformatieServiceV12_Service ss = new StatusinformatieServiceV12_Service(wsdlURL, STATUS_SERVICE_NAME);
 		StatusinformatieServiceV12 port = ss.getStatusinformatieServiceV12();
 		SecureConnectionHelper.setupTLS(port, keyProperties, trustProperties);
@@ -134,11 +135,10 @@ public class DigipoortServiceImpl implements DigipoortService {
 		return port;
 	}
 
-	private URL getWsdlUrlForAanleveren() throws IOException {
-		String digipoort = "prod"; // environment.getProperty(DIGIPOORT);
-		String wsdlName = null;
-		URL wsdlURL = null;
-		if (digipoort.equals("prod")) {
+	private URL getWsdlUrlForAanleveren(String digipoortMode) {
+		String wsdlName;
+		URL wsdlURL;
+		if (digipoortMode.equals("prod")) {
 			wsdlName = "/Aanleverservice_Digipoort_WUS 2.0 Bedrijven_v1.2_prod.wsdl";
 		} else {
 			wsdlName = "/aanlever_test.wsdl";
@@ -151,12 +151,10 @@ public class DigipoortServiceImpl implements DigipoortService {
 		return wsdlURL;
 	}
 
-	private URL getWsdlUrlForStatus() throws IOException {
-		String digipoort = "prod"; // environment.getProperty(DIGIPOORT);
-
-		String wsdlName = null;
-		URL wsdlURL = null;
-		if (digipoort.equals("prod")) {
+	private URL getWsdlUrlForStatus(String digipoortMode) {
+		String wsdlName;
+		URL wsdlURL;
+		if (digipoortMode.equals("prod")) {
 			wsdlName = "/Statusinformatieservice_Digipoort_WUS 2.0 Bedrijven_v1.2_prod.wsdl";
 		} else {
 			wsdlName = "/status_test.wsdl";
@@ -194,7 +192,7 @@ public class DigipoortServiceImpl implements DigipoortService {
 		cxfEndpoint.getOutInterceptors().add(new DynamicWsaSignaturePartsInterceptor());
 	}
 
-	private AanleverRequest createAanleverRequest(String xbrlInstance, String fiscalNumber) throws IOException {
+	private AanleverRequest createAanleverRequest(LambdaEvent lambdaEvent) throws IOException {
 		AanleverRequest aanleverRequest = new AanleverRequest();
 		aanleverRequest.setAutorisatieAdres(AUTORISATIE_ADRES);
 		aanleverRequest.setBerichtsoort(INVOICE);
@@ -203,37 +201,38 @@ public class DigipoortServiceImpl implements DigipoortService {
 		BerichtInhoudType berichtInhoud = new BerichtInhoudType();
 		berichtInhoud.setMimeType("application/xml");
 		berichtInhoud.setBestandsnaam("Invoice.xml");
-		berichtInhoud.setInhoud(xbrlInstance.replaceAll(">\\s+<", "><").trim().getBytes("UTF-8"));
-		addIdentiteit(fiscalNumber, aanleverRequest);
+		String xmlFile = getXmlFileAsString(lambdaEvent);
+		berichtInhoud.setInhoud(xmlFile.replaceAll(">\\s+<", "><").trim().getBytes("UTF-8"));
+		addIdentiteit(lambdaEvent.getSendInvoice().getSenderId(), lambdaEvent.getSendInvoice().getReceiverId(), aanleverRequest);
 		aanleverRequest.setBerichtInhoud(berichtInhoud);
 		return aanleverRequest;
 	}
 
-	private void addIdentiteit(String fiscalNumber, AanleverRequest aanleverRequest) {
+	private void addIdentiteit(String fiscalNumber, String oinNumber, AanleverRequest aanleverRequest) {
 		IdentiteitType identiteitBelanghebbende = new IdentiteitType();
 		identiteitBelanghebbende.setNummer(fiscalNumber);
 		identiteitBelanghebbende.setType(FISCAL_TYPE);
 		aanleverRequest.setIdentiteitBelanghebbende(identiteitBelanghebbende);
 
 		IdentiteitType identiteitOntvanger = new IdentiteitType();
-		identiteitOntvanger.setNummer("00000004000000062000");
+		identiteitOntvanger.setNummer(oinNumber);
 		identiteitOntvanger.setType("OIN");
 		aanleverRequest.setIdentiteitOntvanger(identiteitOntvanger);
 	}
 
 	@Override
-	public GetNieuweStatussenResponse getNieuweStatussen(VatDeclarationData vatDeclarationData) throws IOException, GeneralSecurityException {
-		StatusinformatieServiceV12 port = setupPortForStatus();
+	public GetNieuweStatussenResponse getNieuweStatussen(String digipoortMode, String fiscalNumber) throws IOException, GeneralSecurityException {
+		StatusinformatieServiceV12 port = setupPortForStatus(digipoortMode);
 		try {
 			GetNieuweStatussenRequest request = objectFactory.createGetNieuweStatussenRequest();
 			request.setAutorisatieAdres(AUTORISATIE_ADRES);
 			request.setBerichtsoort(OMZETBELASTING);
 			IdentiteitType identiteitType = objectFactory.createIdentiteitType();
-			identiteitType.setNummer(vatDeclarationData.getFiscalNumber());
+			identiteitType.setNummer(fiscalNumber);
 			identiteitType.setType(FISCAL_TYPE);
 			request.setIdentiteitBelanghebbende(identiteitType);
-			request.setTijdstempelVanaf(DateHelper.getDateForXml(vatDeclarationData.getStartDate()));
-			request.setTijdstempelTot(DateHelper.getDateForXml(vatDeclarationData.getEndDate()));			
+			request.setTijdstempelVanaf(DateHelper.getDateForXml(LocalDate.now()));
+			request.setTijdstempelTot(DateHelper.getDateForXml(LocalDate.now().plusDays(1)));
 			return port.getNieuweStatussen(request);
 		} catch (StatusinformatieServiceFault e) {
 			System.out.println("Expected exception: StatusinformatieServiceFault has occurred.");
@@ -243,15 +242,15 @@ public class DigipoortServiceImpl implements DigipoortService {
 	}
 
 	@Override
-	public GetNieuweStatussenProcesResponse getNieuweStatussenProces(VatDeclarationData vatDeclarationData, String kenmerk)
+	public GetNieuweStatussenProcesResponse getNieuweStatussenProces(String digipoortMode, String kenmerk)
 			throws IOException, GeneralSecurityException {
-		StatusinformatieServiceV12 port = setupPortForStatus();
+		StatusinformatieServiceV12 port = setupPortForStatus(digipoortMode);
 		try {
 			GetNieuweStatussenProcesRequest request = objectFactory.createGetNieuweStatussenProcesRequest();
 			request.setKenmerk(kenmerk);
 			request.setAutorisatieAdres(AUTORISATIE_ADRES);
-			request.setTijdstempelVanaf(DateHelper.getDateForXml(vatDeclarationData.getStartDate()));
-			request.setTijdstempelTot(DateHelper.getDateForXml(vatDeclarationData.getEndDate()));
+			request.setTijdstempelVanaf(DateHelper.getDateForXml(LocalDate.now()));
+			request.setTijdstempelTot(DateHelper.getDateForXml(LocalDate.now().plusDays(1)));
 			return port.getNieuweStatussenProces(request);
 		} catch (StatusinformatieServiceFault e) {
 			System.out.println("Expected exception: StatusinformatieServiceFault has occurred.");
@@ -261,14 +260,14 @@ public class DigipoortServiceImpl implements DigipoortService {
 	}
 
 	@Override
-	public GetProcessenResponse getProcessen(VatDeclarationData vatDeclarationData) throws IOException,
+	public GetProcessenResponse getProcessen(String digipoortMode, String fiscalNumber) throws IOException,
 			GeneralSecurityException, StatusinformatieServiceFault {
-		StatusinformatieServiceV12 port = setupPortForStatus();
+		StatusinformatieServiceV12 port = setupPortForStatus(digipoortMode);
 		try {
 			GetProcessenRequest request = objectFactory.createGetProcessenRequest();
 			request.setBerichtsoort(OMZETBELASTING);
 			IdentiteitType identiteitType = objectFactory.createIdentiteitType();
-			identiteitType.setNummer(vatDeclarationData.getFiscalNumber());
+			identiteitType.setNummer(fiscalNumber);
 			identiteitType.setType(FISCAL_TYPE);
 			request.setIdentiteitBelanghebbende(identiteitType);
 			request.setAutorisatieAdres(AUTORISATIE_ADRES);
@@ -281,14 +280,14 @@ public class DigipoortServiceImpl implements DigipoortService {
 	}
 
 	@Override
-	public GetStatussenProcesResponse getStatussenProces(VatDeclarationData vatDeclarationData, String kenmerk) throws
+	public GetStatussenProcesResponse getStatussenProces(String digipoortMode, String kenmerk) throws
 			IOException, GeneralSecurityException, StatusinformatieServiceFault {
-		StatusinformatieServiceV12 port = setupPortForStatus();
+		StatusinformatieServiceV12 port = setupPortForStatus(digipoortMode);
 		try {
 			GetStatussenProcesRequest request = objectFactory.createGetStatussenProcesRequest();
 			request.setKenmerk(kenmerk);
-			request.setTijdstempelVanaf(DateHelper.getDateForXml(vatDeclarationData.getStartDate()));
-			request.setTijdstempelTot(DateHelper.getDateForXml(vatDeclarationData.getEndDate()));
+			request.setTijdstempelVanaf(DateHelper.getDateForXml(LocalDate.now().minusMonths(1)));
+			request.setTijdstempelTot(DateHelper.getDateForXml(LocalDate.now().plusDays(1)));
 			request.setAutorisatieAdres(AUTORISATIE_ADRES);
 			return port.getStatussenProces(request);
 		} catch (StatusinformatieServiceFault e) {
@@ -298,9 +297,9 @@ public class DigipoortServiceImpl implements DigipoortService {
 	}
 
 	@Override
-	public GetBerichtsoortenResponse getBerichtsoorten(String fiscalNumber) throws IOException,
+	public GetBerichtsoortenResponse getBerichtsoorten(String digipoortMode, String fiscalNumber) throws IOException,
 			GeneralSecurityException, StatusinformatieServiceFault {
-		StatusinformatieServiceV12 port = setupPortForStatus();
+		StatusinformatieServiceV12 port = setupPortForStatus(digipoortMode);
 		try {
 			log.info("Get berichtsoorten");
 			GetBerichtsoortenRequest request = objectFactory.createGetBerichtsoortenRequest();
@@ -316,4 +315,17 @@ public class DigipoortServiceImpl implements DigipoortService {
 		}
 	}
 
+	private static String getXmlFileAsString(LambdaEvent lambdaEvent) {
+		InputStream inputStream;
+		if (lambdaEvent.getEnvironment().equals("AWS")) {
+			inputStream = AmazonS3ClientBuilder.defaultClient().getObject(lambdaEvent.getSendInvoice().getSourceBucket(), lambdaEvent.getSendInvoice().getSourceKeyname()).getObjectContent();
+		} else {
+			inputStream = DigipoortServiceImpl.class.getClassLoader().getResourceAsStream(lambdaEvent.getSendInvoice().getSourceKeyname());
+		}
+		if (inputStream != null) {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+		}
+		return null;
+	}
 }

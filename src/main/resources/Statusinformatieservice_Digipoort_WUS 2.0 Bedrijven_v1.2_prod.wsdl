@@ -228,7 +228,7 @@
 	</wsdl:binding>
 	<wsdl:service name="StatusinformatieService_V1_2">
 		<wsdl:port name="StatusinformatieService_V1_2" binding="tns:StatusinformatieServiceSoapBinding_V1_2">
-			<soap11:address location="https://preprod-dgp.procesinfrastructuur.nl/wus/2.0/statusinformatieservice/1.2"/>
+			<soap11:address location="https://dgp.procesinfrastructuur.nl/wus/2.0/statusinformatieservice/1.2"/>
 		</wsdl:port>
 	</wsdl:service>
 	<wsp:Policy wsu:Id="X509EndpointPolicy">

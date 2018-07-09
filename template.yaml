@@ -5,7 +5,7 @@ Resources:
   DigipoortMicroservice:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: org.techytax.digipoort.HelloWorldLambdaHandler::handleRequest
+      Handler: org.techytax.digipoort.lambda.DigipoortLambdaHandler::handleRequest
       CodeUri: target/unzipped
       Runtime: java8
       Timeout: 60

@@ -1,9 +1,6 @@
 package org.techytax.digipoort;
 
-import org.techytax.domain.FiscalPeriod;
-import org.techytax.domain.VatDeclarationData;
-import org.techytax.domain.VatPeriodType;
-import org.techytax.util.DateHelper;
+import org.techytax.digipoort.lambda.event.LambdaEvent;
 import org.techytax.ws.AanleverResponse;
 import org.techytax.ws.GetBerichtsoortenResponse;
 import org.techytax.ws.GetNieuweStatussenResponse;
@@ -13,19 +10,11 @@ import org.techytax.ws.GetStatussenProcesResponse;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 public class DigipoortTest {
 
   public static void main(String[] args) throws Exception {
-    DigipoortServiceImpl digipoortService = new DigipoortServiceImpl();
-
-    VatDeclarationData vatDeclarationData = new VatDeclarationData();
-    vatDeclarationData.setFiscalNumber("<fiscal number");
-    vatDeclarationData.setStartDate(LocalDate.now().withMonth(1).withDayOfMonth(1));
-    vatDeclarationData.setEndDate(LocalDate.now().withMonth(3).withDayOfMonth(31));
 //    digipoortService.getNieuweStatussen(vatDeclarationData);
 //    doAanleveren();
 //    getNieuweStatussen();
@@ -36,50 +25,28 @@ public class DigipoortTest {
 
   static AanleverResponse doAanleveren() throws Exception {
     DigipoortServiceImpl digipoortService = new DigipoortServiceImpl();
-    return digipoortService.aanleveren(readXmlInvoice(), "174006275B01");
+    LambdaEvent lambdaEvent = new LambdaEvent();
+    return digipoortService.aanleveren(lambdaEvent);
   }
 
   private static GetNieuweStatussenResponse getNieuweStatussen() throws Exception {
-    VatDeclarationData vatDeclarationData = createVatDeclarationData();
     DigipoortServiceImpl digipoortService = new DigipoortServiceImpl();
-    return digipoortService.getNieuweStatussen(vatDeclarationData);
+    return digipoortService.getNieuweStatussen("", "");
   }
 
   static GetStatussenProcesResponse getStatussenProces() throws Exception {
-    VatDeclarationData vatDeclarationData = createVatDeclarationData();
-    vatDeclarationData.setEndDate(LocalDate.now().plusDays(1));
     DigipoortServiceImpl digipoortService = new DigipoortServiceImpl();
-    return digipoortService.getStatussenProces(vatDeclarationData, "e1aa497a-03dc-4392-8deb-11e5534a505f");
+    return digipoortService.getStatussenProces("test", "e1aa497a-03dc-4392-8deb-11e5534a505f");
   }
 
   private static GetProcessenResponse getProcessen() throws Exception {
-    VatDeclarationData vatDeclarationData = createVatDeclarationData();
-    vatDeclarationData.setEndDate(LocalDate.now().plusDays(1));
     DigipoortServiceImpl digipoortService = new DigipoortServiceImpl();
-    return digipoortService.getProcessen(vatDeclarationData);
+    return digipoortService.getProcessen("", "");
   }
 
   public static GetBerichtsoortenResponse getBerichtsoorten() throws Exception {
     DigipoortServiceImpl digipoortService = new DigipoortServiceImpl();
-    return digipoortService.getBerichtsoorten("174006275B01");
-  }
-
-  private static VatDeclarationData createVatDeclarationData() throws Exception {
-    VatDeclarationData vatDeclarationData = new VatDeclarationData();
-    FiscalPeriod period = DateHelper.getLatestVatPeriod(VatPeriodType.PER_QUARTER);
-    vatDeclarationData.setStartDate(period.getBeginDate());
-    vatDeclarationData.setEndDate(period.getEndDate());
-    vatDeclarationData.setFiscalNumber("B01");
-    vatDeclarationData.setInitials("");
-    vatDeclarationData.setSurname("");
-    vatDeclarationData.setPhoneNumber("");
-    vatDeclarationData.setValueAddedTaxOnInput(BigDecimal.valueOf(0));
-    vatDeclarationData.setValueAddedTaxPrivateUse(BigDecimal.valueOf(0));
-    vatDeclarationData.setValueAddedTaxSuppliesServicesGeneralTariff(BigDecimal.valueOf(0));
-    vatDeclarationData.setValueAddedTaxOwed(BigDecimal.valueOf(0));
-    vatDeclarationData.setValueAddedTaxOwedToBePaidBack(BigDecimal.valueOf(0));
-    vatDeclarationData.setTaxedTurnoverSuppliesServicesGeneralTariff(BigDecimal.valueOf(0));
-    return vatDeclarationData;
+    return digipoortService.getBerichtsoorten("test", "174006275B01");
   }
 
   private static String readXmlInvoice() {

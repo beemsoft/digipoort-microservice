@@ -156,6 +156,13 @@
       <version>2.8.2</version>
     </dependency>
 
+    <!-- S3 bucket reading -->
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk-s3</artifactId>
+      <version>1.11.362</version>
+    </dependency>
+
     <!-- Override CXF policy -->
     <dependency>
       <groupId>org.apache.wss4j</groupId>

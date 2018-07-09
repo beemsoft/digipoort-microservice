@@ -1,6 +1,6 @@
 package org.techytax.digipoort;
 
-import org.techytax.domain.VatDeclarationData;
+import org.techytax.digipoort.lambda.event.LambdaEvent;
 import org.techytax.ws.AanleverResponse;
 import org.techytax.ws.AanleverServiceFault;
 import org.techytax.ws.GetBerichtsoortenResponse;
@@ -10,7 +10,6 @@ import org.techytax.ws.GetProcessenResponse;
 import org.techytax.ws.GetStatussenProcesResponse;
 import org.techytax.wus.status.StatusinformatieServiceFault;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
@@ -45,27 +44,16 @@ public interface DigipoortService {
 	 * of uit de melding dat de aanlevering is mislukt (SOAP fault). Wanneer de
 	 * aanlevering succesvol is, stuurt de Aanleverservice het betreffende
 	 * aanleverbericht naar het onderliggende verwerkingsproces.
-	 * @return
-	 * @throws GeneralSecurityException 
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
-	 * @throws AanleverServiceFault 
 	 */
-	AanleverResponse aanleveren(String xbrlInstance, String fiscalNumber) throws IOException, GeneralSecurityException, AanleverServiceFault;
+	AanleverResponse aanleveren(LambdaEvent lambdaEvent) throws IOException, GeneralSecurityException, AanleverServiceFault;
 
 	/**
 	 * Geeft alle statussen voor de belanghebbende die nog niet eerder bij dit
 	 * certificaat opgehaald zijn (alle statussen waarmee voor de betreffende
 	 * identiteitBelanghebbende en het meegegeven certificaat nog geen relatie
 	 * is vastgelegd).
-	 * @param vatDeclarationData
-	 * 
-	 * @return
-	 * @throws IOException 
-	 * @throws GeneralSecurityException 
 	 */
-	GetNieuweStatussenResponse getNieuweStatussen(
-    VatDeclarationData vatDeclarationData) throws IOException, GeneralSecurityException;
+	GetNieuweStatussenResponse getNieuweStatussen(String digipoortMode, String fiscalNumber) throws IOException, GeneralSecurityException;
 
 	/**
 	 * Geeft van een bepaald verwerkingsproces alle statussen terug die nog niet
@@ -74,55 +62,24 @@ public interface DigipoortService {
 	 * is gebruikt (alle statussen worden teruggegeven waarbij voor het
 	 * betreffende kenmerk en het meegegeven certificaat nog geen relatie is
 	 * vastgelegd). Er kan desgewenst ook een tijdsperiode worden meegegeven.
-	 * @param vatDeclarationData
-	 * @param kenmerk
-	 * 
-	 * @return
-	 * @throws GeneralSecurityException 
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
 	 */
-	GetNieuweStatussenProcesResponse getNieuweStatussenProces(
-    VatDeclarationData vatDeclarationData, String kenmerk) throws IOException, GeneralSecurityException;
-
-	/**
-	 * Geeft alle processen voor een bepaalde belanghebbende met een specifieke
-	 * berichtsoort.
-	 * @param vatDeclarationData
-	 * 
-	 * @return
-	 * @throws GeneralSecurityException 
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
-	 * @throws StatusinformatieServiceFault 
-	 */
-	GetProcessenResponse getProcessen(
-    VatDeclarationData vatDeclarationData) throws IOException, GeneralSecurityException, StatusinformatieServiceFault;
+	GetNieuweStatussenProcesResponse getNieuweStatussenProces(String digipoortMode, String kenmerk) throws IOException, GeneralSecurityException;
 
 	/**
 	 * Geeft alle statussen die bij een bepaald verwerkingsproces horen. Er kan
 	 * een tijdsperiode worden opgegeven.
-	 * @param vatDeclarationData
-	 * @param kenmerk
-	 * 
-	 * @return
-	 * @throws GeneralSecurityException 
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
-	 * @throws StatusinformatieServiceFault 
 	 */
-	GetStatussenProcesResponse getStatussenProces(
-    VatDeclarationData vatDeclarationData, String kenmerk) throws IOException, GeneralSecurityException, StatusinformatieServiceFault;
+	GetStatussenProcesResponse getStatussenProces(String digipoortMode, String kenmerk) throws IOException, GeneralSecurityException, StatusinformatieServiceFault;
 
 	/**
 	 * Geeft alle berichtsoorten waarvoor namens een bepaalde belanghebbende
 	 * informatie is aangeleverd.
-	 *
-	 * @param fiscalNumber@return
-	 * @throws GeneralSecurityException 
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
-	 * @throws StatusinformatieServiceFault 
 	 */
-	GetBerichtsoortenResponse getBerichtsoorten(String fiscalNumber) throws IOException, GeneralSecurityException, StatusinformatieServiceFault;
+	GetBerichtsoortenResponse getBerichtsoorten(String digipoortMode, String fiscalNumber) throws IOException, GeneralSecurityException, StatusinformatieServiceFault;
+
+	/**
+	 * Geeft alle processen voor een bepaalde belanghebbende met een specifieke
+	 * berichtsoort.
+	 */
+	GetProcessenResponse getProcessen(String digipoortMode, String fiscalNumber) throws IOException, GeneralSecurityException, StatusinformatieServiceFault;
 }
