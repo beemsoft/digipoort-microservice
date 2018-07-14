@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:tns="http://logius.nl/digipoort/wus/2.0/aanleverservice/1.2/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:mtom="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization" xmlns:kv="http://logius.nl/digipoort/koppelvlakservices/1.2/" targetNamespace="http://logius.nl/digipoort/wus/2.0/aanleverservice/1.2/">
+	<wsdl:documentation>
+		TLS of SSL 3 met:
+
+		TLS_DHE_RSA_WITH_AES_128_CBC_SHA 
+		TLS_RSA_WITH_AES_128_CBC_SHA
+		TLS_RSA_WITH_AES_256_CBC_SHA
+		TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+		TLS_RSA_WITH_3DES_EDE_CBC_SHA
+		SSL_RSA_WITH_AES_128_CBC_SHA
+
+		Elementen:
+ 
+		Het is niet toegestaan eigen header velden toe te voegen aan het bericht.
+
+		Timestamp
+		http://docs.oasis-open.org/wss/2004/01/oasis-200401-wsswssecurity-utility-1.0.xsd
+		wsu:Timestamp
+		wsu:Created is verplicht
+		wsu:Expires is optioneel
+
+		WS-Addressing: 
+		http://www.w3.org/2006/05/addressing/wsdl
+
+		Request:
+
+		wsa:To
+		gelijk aan het endpoint van de service
+
+		wsa:Action
+		http://logius.nl/digipoort/wus/2.0/aanleverservice/1.2/AanleverService/aanleverenRequest
+
+		wsa:MessageID
+		voldoen aan :
+		http://www.w3.org/TR/2007/REC-ws-addr-metadata-20070904/
+
+		wsa:ReplyTo
+		optioneel, indien gevuld moet deze de volgende waarde hebben: 
+		http://www.w3.org/2005/08/addressing/anonymous
+
+		Response:
+
+		wsa:To
+		http://www.w3.org/2005/08/addressing/anonymous
+
+		wsa:Action
+		http://logius.nl/digipoort/wus/2.0/aanleverservice/1.2/AanleverService/aanleverenResponse
+
+		wsa:MessageID
+		voldoen aan :
+		http://www.w3.org/TR/2007/REC-ws-addr-metadata-20070904/
+
+		wsa:RelatesTo
+		voldoen aan : http://www.w3.org/TR/2007/REC-ws-addr-metadata-20070904/
+		Moet hetzelfde ID zijn als in de request.
+
+		Overige headers mogen alleen
+		voorkomen met waarde:
+		http://www.w3.org/2005/08/addressing/anonymous
+		http://www.w3.org/2005/08/addressing/none
+
+		Digitale handtekening:
+		http://www.w3.org/2000/09/xmldsig#
+
+		Canonicalization
+		http://www.w3.org/2001/10/xml-exc-c14n#
+
+		Digest
+		http://www.w3.org/2000/09/xmldsig#sha1
+
+		Signature
+		http://www.w3.org/2000/09/xmldsig#rsa-sha1
+
+		- het element timestamp moet ondertekend worden.
+		- alle ws-addressing elementen moeten ondertekend worden.
+		- de body moet ondertekend worden.
+
+		Het gebruikte
+		x.509 certificaat moet als binary security token
+		meegeleverd worden.
+		http://docs.oasis-open.org/wss/2004/01/oasis-200401-wsswssecurity-secext-1.0.xsd
+
+		wsse:BinarySecurityToken
+		Encoding
+		http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soapmessage-security-1.0#Base64Binary
+		Value
+		http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-tokenprofile-1.0#X509v3
+	</wsdl:documentation>
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+			<xsd:import namespace="http://logius.nl/digipoort/koppelvlakservices/1.2/" schemaLocation="/xsd/digipoort-koppelvlak-1.2.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="aanleverMessageRequest">
+		<wsdl:part name="aanleverRequest" element="kv:aanleverRequest"/>
+	</wsdl:message>
+	<wsdl:message name="aanleverMessageResponse">
+		<wsdl:part name="aanleverResponse" element="kv:aanleverResponse"/>
+	</wsdl:message>
+	<wsdl:message name="AanleverServiceFault">
+		<wsdl:part name="fault" element="kv:aanleverFault"/>
+	</wsdl:message>
+	<wsdl:portType name="AanleverService_V1_2">
+		<wsdl:operation name="aanleveren">
+			<wsdl:input name="aanleverenRequest" message="tns:aanleverMessageRequest"/>
+			<wsdl:output name="aanleverenResponse" message="tns:aanleverMessageResponse" wsaw:Action="http://logius.nl/digipoort/wus/2.0/aanleverservice/1.2/AanleverService/aanleverenResponse"/>
+			<wsdl:fault name="aanleverServiceFault" message="tns:AanleverServiceFault" wsaw:Action="http://logius.nl/digipoort/wus/2.0/aanleverservice/1.2/AanleverService/aanleveren/Fault/"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="AanleverServiceSoapBinding_V1_2" type="tns:AanleverService_V1_2">
+		<soap11:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<!-- Use security policy -->
+		<wsp:PolicyReference URI="#X509EndpointPolicy"/>
+		<!-- use document literal -->
+		<wsdl:operation name="aanleveren">
+			<soap11:operation soapAction="http://logius.nl/digipoort/wus/2.0/aanleverservice/1.2/AanleverService/aanleverenRequest"/>
+			<wsdl:input name="aanleverenRequest">
+				<soap11:body use="literal"/>
+				<wsp:PolicyReference URI="#SecureMessagePolicy"/>
+			</wsdl:input>
+			<wsdl:output name="aanleverenResponse">
+				<soap11:body use="literal"/>
+				<wsp:PolicyReference URI="#SecureMessagePolicy"/>
+			</wsdl:output>
+			<wsdl:fault name="aanleverServiceFault">
+				<soap11:fault name="aanleverServiceFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="AanleverService_V1_2">
+		<wsdl:port name="AanleverService_V1_2" binding="tns:AanleverServiceSoapBinding_V1_2">
+			<soap11:address location="https://preprod-dgp.procesinfrastructuur.nl/wus/2.0/aanleverservice/1.2"/>
+		</wsdl:port>
+	</wsdl:service>
+	<wsp:Policy wsu:Id="X509EndpointPolicy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:AsymmetricBinding>
+					<wsp:Policy>
+						<sp:InitiatorToken>
+							<wsp:Policy>
+								<sp:X509Token sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+									<wsp:Policy>
+										<sp:WssX509V3Token10/>
+									</wsp:Policy>
+								</sp:X509Token>
+							</wsp:Policy>
+						</sp:InitiatorToken>
+						<sp:RecipientToken>
+							<wsp:Policy>
+								<sp:X509Token sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToInitiator">
+									<wsp:Policy>
+										<sp:WssX509V3Token10/>
+									</wsp:Policy>
+								</sp:X509Token>
+							</wsp:Policy>
+						</sp:RecipientToken>
+						<sp:AlgorithmSuite>
+							<wsp:Policy>
+								<sp:Basic128Rsa15/>
+							</wsp:Policy>
+						</sp:AlgorithmSuite>
+						<sp:IncludeTimestamp/>
+						<sp:EncryptBeforeSigning/>
+						<sp:OnlySignEntireHeadersAndBody/>
+					</wsp:Policy>
+				</sp:AsymmetricBinding>
+				<wsam:Addressing>
+					<wsp:Policy>
+						<wsp:ExactlyOne>
+							<wsp:All>
+								<wsam:Anonymous>required</wsam:Anonymous>
+							</wsp:All>
+							<wsp:All>
+								<wsam:AnonymousResponses/>
+							</wsp:All>
+						</wsp:ExactlyOne>
+					</wsp:Policy>
+				</wsam:Addressing>
+				<mtom:OptimizedMimeSerialization wsp:Optional="true"/>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy wsu:Id="SecureMessagePolicy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts>
+					<sp:Body/>
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing"/>
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing"/>
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing"/>
+				</sp:SignedParts>
+				<sp:SignedElements>
+					<sp:XPath>/*[namespace-uri()='http://schemas.xmlsoap.org/soap/envelope/' and local-name()='Envelope']/*[namespace-uri()='http://schemas.xmlsoap.org/soap/envelope/' and local-name()='Header']/*[namespace-uri()='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd' and local-name()='Security']/*[namespace-uri()='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd' and local-name()='Timestamp']</sp:XPath>
+					<sp:XPath>/*[namespace-uri()='http://www.w3.org/2003/05/soap-envelope' and local-name()='Envelope']/*[namespace-uri()='http://www.w3.org/2003/05/soap-envelope' and local-name()='Header']/*[namespace-uri()='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd' and local-name()='Security']/*[namespace-uri()='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd' and local-name()='Timestamp']</sp:XPath>
+				</sp:SignedElements>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+</wsdl:definitions>
