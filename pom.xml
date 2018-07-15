@@ -214,8 +214,7 @@
         <artifactId>maven-resources-plugin</artifactId>
         <configuration>
           <nonFilteredFileExtensions>
-            <nonFilteredFileExtension>proto</nonFilteredFileExtension>
-            <nonFilteredFileExtension>desc</nonFilteredFileExtension>
+            <nonFilteredFileExtension>p12</nonFilteredFileExtension>
           </nonFilteredFileExtensions>
         </configuration>
       </plugin>
