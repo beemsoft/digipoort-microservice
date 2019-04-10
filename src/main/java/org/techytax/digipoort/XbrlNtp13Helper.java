@@ -1,15 +1,15 @@
 package org.techytax.digipoort;
 
-import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_codes.ContactItemType;
-import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring10VItemType;
-import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring14VItemType;
-import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring200VItemType;
-import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring20VItemType;
-import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring30VItemType;
-import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.Anstring8FItemType;
-import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.DateTimeItemType;
-import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.MonetaryNoDecimals10VItemType;
-import nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.MonetaryNoDecimals9VItemType;
+import nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_codes.ContactItemType;
+import nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.Anstring10VItemType;
+import nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.Anstring14VItemType;
+import nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.Anstring200VItemType;
+import nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.Anstring20VItemType;
+import nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.Anstring30VItemType;
+import nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.Anstring8FItemType;
+import nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.DateTimeItemType;
+import nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.MonetaryNoDecimals10VItemType;
+import nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.MonetaryNoDecimals9VItemType;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Component
-public class XbrlNtp12Helper {
+public class XbrlNtp13Helper {
 
 	private static final String CONTEXT_ID = "Msg";
 	private static final String ISO_EURO = "iso4217:EUR";
@@ -59,11 +59,11 @@ public class XbrlNtp12Helper {
 		try {
 			xbrlObjectFactory = new ObjectFactory();
 			jc = JAXBContext.newInstance(ObjectFactory.class,
-					nl.nltaxonomie.nt12.bd._20171213_b.dictionary.bd_types.ObjectFactory.class, org.xbrl._2006.xbrldi.ObjectFactory.class, org.xbrl._2003.xlink.ObjectFactory.class,
+					nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.ObjectFactory.class, org.xbrl._2006.xbrldi.ObjectFactory.class, org.xbrl._2003.xlink.ObjectFactory.class,
 					nl.nltaxonomie._2011.xbrl.xbrl_syntax_extension.ObjectFactory.class, org.xbrl._2003.linkbase.ObjectFactory.class, org.xbrl._2005.xbrldt.ObjectFactory.class,
-					nl.nltaxonomie.nt12.bd._20171213_b.dictionary.bd_domain_members.ObjectFactory.class,
+					nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_domain_members.ObjectFactory.class,
 					nl.nltaxonomie.iso.iso4217.ObjectFactory.class,
-					nl.nltaxonomie.nt12.bd._20171213_b.dictionary.bd_data.ObjectFactory.class);
+					nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_data.ObjectFactory.class);
 			m = jc.createMarshaller();
 			StringWriter writer = new StringWriter();
 			m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
@@ -73,7 +73,7 @@ public class XbrlNtp12Helper {
 			org.xbrl._2003.xlink.ObjectFactory xlinkObjectFactory = new org.xbrl._2003.xlink.ObjectFactory();
 			SimpleType simpleType = xlinkObjectFactory.createSimpleType();
 			simpleType.setType("simple");
-			simpleType.setHref("http://www.nltaxonomie.nl/nt12/bd/20171213/entrypoints/bd-rpt-ob-aangifte-2018.xsd");
+			simpleType.setHref("http://www.nltaxonomie.nl/nt13/bd/20181212/entrypoints/bd-rpt-ob-aangifte-2019.xsd");
 			xbrl.getSchemaRef().add(simpleType);
 			xbrl.getOtherAttributes().put(new QName("xml:lang"), "nl");
 
@@ -98,13 +98,8 @@ public class XbrlNtp12Helper {
 			unit.getMeasure().add(qName);
 			xbrl.getItemOrTupleOrContext().add(unit);
 
-			nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.ObjectFactory bdTypeObjectFactory = new nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_types.ObjectFactory();
-			nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_data.ObjectFactory bdDataObjectFactory = new nl.nltaxonomie.nt12.bd._20171213.dictionary.bd_data.ObjectFactory();
-			ContactItemType contactType = new ContactItemType();
-			contactType.setValue(BELASTING_PLICHTIGE);
-			contactType.setContextRef(context);
-			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createContactType(contactType));
-
+			nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.ObjectFactory bdTypeObjectFactory = new nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_types.ObjectFactory();
+			nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_data.ObjectFactory bdDataObjectFactory = new nl.nltaxonomie.nt13.bd._20181212.dictionary.bd_data.ObjectFactory();
 			Anstring10VItemType initials = bdTypeObjectFactory.createAnstring10VItemType();
 			initials.setValue(vatDeclarationData.getInitials());
 			initials.setContextRef(context);
@@ -127,6 +122,11 @@ public class XbrlNtp12Helper {
 			telephoneNumber.setContextRef(context);
 			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createContactTelephoneNumber(telephoneNumber));
 
+			ContactItemType contactType = new ContactItemType();
+			contactType.setValue(BELASTING_PLICHTIGE);
+			contactType.setContextRef(context);
+			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createContactType(contactType));
+
 			DateTimeItemType dateTime = bdTypeObjectFactory.createDateTimeItemType();
 			dateTime.setValue(DateHelper.getTimeStamp(new Date()));
 			dateTime.setContextRef(context);
@@ -138,8 +138,7 @@ public class XbrlNtp12Helper {
 			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createMessageReferenceSupplierVAT(supplier));
 
 			Anstring20VItemType packageVersion = bdTypeObjectFactory.createAnstring20VItemType();
-//			packageVersion.setValue(PACKAGE_VERSION);
-			packageVersion.setValue("3.0");
+			packageVersion.setValue("1.0");
 			packageVersion.setContextRef(context);
 			xbrl.getItemOrTupleOrContext().add(bdDataObjectFactory.createSoftwarePackageVersion(packageVersion));
 
@@ -229,7 +228,7 @@ public class XbrlNtp12Helper {
 
 
 	public static void main(String[] args) throws Exception {
-		XbrlNtp12Helper xbrlNtp12Helper = new XbrlNtp12Helper();
+		XbrlNtp13Helper xbrlNtp12Helper = new XbrlNtp13Helper();
 //		MockEnvironment environment = new MockEnvironment();
 //		environment.setProperty("software.vendor.account.number", "123");
 //		xbrlNtp9Helper.environment = environment;
