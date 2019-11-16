@@ -4,7 +4,6 @@ package org.techytax.wus.status;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
 import org.apache.ws.security.handler.WSHandlerConstants;
 import org.techytax.security.ClientPasswordCallback;
@@ -90,8 +89,8 @@ public final class StatusinformatieServiceV12_StatusinformatieServiceV12_Client 
 		inProps.put(WSHandlerConstants.SIG_PROP_FILE,
 				"client_verify.properties");
 
-		WSS4JInInterceptor wssIn = new WSS4JInInterceptor(inProps);
-		cxfEndpoint.getInInterceptors().add(wssIn);
+//		WSS4JInInterceptor wssIn = new WSS4JInInterceptor(inProps);
+//		cxfEndpoint.getInInterceptors().add(wssIn);
 
 		WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
 		cxfEndpoint.getOutInterceptors().add(wssOut);
