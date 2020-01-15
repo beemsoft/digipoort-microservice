@@ -5,7 +5,7 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.ws.security.wss4j.PolicyBasedWSS4JInInterceptor;
-import org.apache.ws.security.handler.WSHandlerConstants;
+import org.apache.wss4j.dom.handler.WSHandlerConstants;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.techytax.domain.VatDeclarationData;
@@ -62,7 +62,7 @@ public class DigipoortServiceImpl implements DigipoortService {
 	private Properties trustProperties = new Properties();
 
 	private ObjectFactory objectFactory = new ObjectFactory();
-	
+
 	public DigipoortServiceImpl() {
 		try {
 			keyProperties.load(this.getClass().getResourceAsStream("/client_sign.properties"));
@@ -99,7 +99,7 @@ public class DigipoortServiceImpl implements DigipoortService {
 		}
 		return aanleverResponse;
 	}
-	
+
 	private AanleverServiceV12 setupPortForAanleveren() throws IOException, GeneralSecurityException {
 		URL wsdlURL = getWsdlUrlForAanleveren();
 		AanleverServiceV12_Service ss = new AanleverServiceV12_Service(wsdlURL, AANLEVER_SERVICE_NAME);
@@ -200,7 +200,7 @@ public class DigipoortServiceImpl implements DigipoortService {
 		BerichtInhoudType berichtInhoud = new BerichtInhoudType();
 		berichtInhoud.setMimeType("application/xml");
 		berichtInhoud.setBestandsnaam("Omzetbelasting.xbrl");
-		berichtInhoud.setInhoud(xbrlInstance.replaceAll(">\\s+<", "><").trim().getBytes("UTF-8"));		
+		berichtInhoud.setInhoud(xbrlInstance.replaceAll(">\\s+<", "><").trim().getBytes("UTF-8"));
 		addIdentiteit(fiscalNumber, aanleverRequest);
 		aanleverRequest.setBerichtInhoud(berichtInhoud);
 		return aanleverRequest;
@@ -225,7 +225,7 @@ public class DigipoortServiceImpl implements DigipoortService {
 			identiteitType.setType(FISCAL_TYPE);
 			request.setIdentiteitBelanghebbende(identiteitType);
 			request.setTijdstempelVanaf(DateHelper.getDateForXml(vatDeclarationData.getStartDate()));
-			request.setTijdstempelTot(DateHelper.getDateForXml(vatDeclarationData.getEndDate()));			
+			request.setTijdstempelTot(DateHelper.getDateForXml(vatDeclarationData.getEndDate()));
 			return port.getNieuweStatussen(request);
 		} catch (StatusinformatieServiceFault e) {
 			System.out.println("Expected exception: StatusinformatieServiceFault has occurred.");

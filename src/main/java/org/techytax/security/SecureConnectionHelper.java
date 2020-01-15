@@ -25,7 +25,7 @@ public class SecureConnectionHelper {
 		HTTPConduit httpConduit = (HTTPConduit) ClientProxy.getClient(port).getConduit();
 
 		TLSClientParameters tlsCP = new TLSClientParameters();
-		String keyPassword = keyProperties.getProperty("org.apache.ws.security.crypto.merlin.keystore.password");
+		String keyPassword = keyProperties.getProperty("org.apache.ws.security.crypto.merlin.keystore.private.password");
 		KeyStore keyStore = KeyStore.getInstance(keyProperties.getProperty("org.apache.ws.security.crypto.merlin.keystore.type"));
 		String keyStoreLoc = keyProperties.getProperty("org.apache.ws.security.crypto.merlin.file");
 		keyStore.load(new FileInputStream(keyStoreLoc), keyPassword.toCharArray());

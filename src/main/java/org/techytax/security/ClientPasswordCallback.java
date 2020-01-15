@@ -1,6 +1,6 @@
 /**
  * Copyright 2013 Hans Beemsterboer
- * 
+ *
  * This file is part of the TechyTax program.
  *
  * TechyTax is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
  */
 package org.techytax.security;
 
-import org.apache.ws.security.WSPasswordCallback;
+import org.apache.wss4j.common.ext.WSPasswordCallback;
 
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
@@ -27,17 +27,17 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import java.io.IOException;
 
 public class ClientPasswordCallback implements CallbackHandler {
-	
+
 	private static String password;
 
-    public void handle(Callback[] callbacks) throws IOException, 
+    public void handle(Callback[] callbacks) throws IOException,
         UnsupportedCallbackException {
 
         WSPasswordCallback pc = (WSPasswordCallback) callbacks[0];
 
         pc.setPassword(password);
     }
-    
+
     public static void setKeyStorePassword(String keyStorePassword) {
     	password = keyStorePassword;
     }
