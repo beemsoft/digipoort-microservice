@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.techytax.digipoort.DigipoortServiceImpl;
-import org.techytax.digipoort.XbrlNtp13Helper;
 import org.techytax.domain.VatDeclarationData;
+import org.techytax.sbr.XbrlHelper;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,6 +28,6 @@ public class VatRestController {
     }
 
     private static String createXbrlInstanceForEnvironment(VatDeclarationData vatDeclarationData) {
-        return XbrlNtp13Helper.createXbrlInstance(vatDeclarationData);
+        return XbrlHelper.createXbrlInstance(vatDeclarationData);
     }
 }

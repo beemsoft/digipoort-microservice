@@ -13,7 +13,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.2.2.RELEASE</version>
+    <version>2.2.5.RELEASE</version>
     <relativePath/>
   </parent>
 
@@ -103,8 +103,8 @@
     </dependency>
     <dependency>
       <groupId>org.techytax</groupId>
-      <artifactId>techytax-xbrl</artifactId>
-      <version>13.0-SNAPSHOT</version>
+      <artifactId>sbr-nl-bd-taxonomy</artifactId>
+      <version>14.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.sun.activation</groupId>
