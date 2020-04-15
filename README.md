@@ -10,7 +10,7 @@ For accessing the Digipoort, this service requires a private certificate.
 * Add the certificate info to client_sign.properties.
 
 Also, public certificates need to be installed:
-* In target/classed, run: java org.techytax.xbrl.InstallCert logius.nl
+* In target/classes, run: java org.techytax.xbrl.InstallCert logius.nl
 * https://whatsmychaincert.com/?logius.nl
 * keytool -import -noprompt -trustcacerts -alias logius.nl -file www.logius.nl.chain+root.crt -keystore jssecacerts 
 * Place the jssecacerts file in the project root. 
@@ -18,6 +18,9 @@ Also, public certificates need to be installed:
 Handy commands:
 * openssl pkcs12 -info -nodes -in certificate.p12
 * keytool -list -v -storetype pkcs12 -keystore certificate.p12
+
+openssl req -nodes -newkey rsa:2048 -keyout private.key -out CSR.csr -subj "/C=NL/ST=Utrecht/L=Utrecht/O=Beemsterboer Software/OU=TechyTax/CN=sbr.techytax.org/serialNumber=00000003302162470000"
+
 
 ## Start command
 
