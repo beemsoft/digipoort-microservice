@@ -108,6 +108,7 @@ public class DigipoortServiceImpl implements DigipoortService {
 
 		Map<String, Object> ctx = ((javax.xml.ws.BindingProvider)port).getRequestContext();
 		ctx.put("security.signature.properties", "client_sign.properties");
+		ctx.put("security.encryption.properties", "client_verify.properties");
 
 		org.apache.cxf.endpoint.Client client = ClientProxy.getClient(port);
 		org.apache.cxf.endpoint.Endpoint cxfEndpoint = client.getEndpoint();
@@ -124,6 +125,7 @@ public class DigipoortServiceImpl implements DigipoortService {
 
 		Map<String, Object> ctx = ((javax.xml.ws.BindingProvider)port).getRequestContext();
 		ctx.put("security.signature.properties", "client_sign.properties");
+		ctx.put("security.encryption.properties", "client_verify.properties");
 
 		org.apache.cxf.endpoint.Client client = ClientProxy.getClient(port);
 		org.apache.cxf.endpoint.Endpoint cxfEndpoint = client.getEndpoint();
